@@ -1,69 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:shoppingmall/states/authen.dart';
+import 'package:shoppingmall/states/buyer_service.dart';
+import 'package:shoppingmall/states/create_account.dart';
+import 'package:shoppingmall/states/rider_service.dart';
+import 'package:shoppingmall/states/seller_service.dart';
+import 'package:shoppingmall/utility/my_constant.dart';
+
+final Map<String, WidgetBuilder> map = {
+  '/authen': (BuildContext context) => Authen(),
+  '/createAccount': (BuildContext context) => CreateAccount(),
+  '/buyerService': (BuildContext context) => BuyerService(),
+  '/sellerService': (BuildContext context) => SellerService(),
+  '/riderService': (BuildContext context) => RiderService(),
+};
+
+String? initlaRoute;
 
 void main() {
-  runApp(const MyApp());
+  initlaRoute = MyConstant.routeAuthen;
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Shopping mall'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      title: MyConstant.appName,
+      routes: map,
+      initialRoute: initlaRoute,
     );
   }
 }
