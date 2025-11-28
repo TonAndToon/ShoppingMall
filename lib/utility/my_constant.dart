@@ -994,8 +994,24 @@ class MyConstant {
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
 
   //Button style
-  ButtonStyle myButtonStyle() => ElevatedButton.styleFrom(
+  //Primary color
+  ButtonStyle myButtonSPmr1() => ElevatedButton.styleFrom(
     backgroundColor: MyConstant.primaryColor,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+    foregroundColor: MyConstant.whColor,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+  );
+  //Button style
+  //Light color
+  ButtonStyle myButtonSL2() => ElevatedButton.styleFrom(
+    backgroundColor: MyConstant.lightColor,
+    foregroundColor: MyConstant.whColor,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+  );
+  //Button style
+  //Dark color
+  ButtonStyle myButtonSDrk3() => ElevatedButton.styleFrom(
+    backgroundColor: MyConstant.darkColor,
+    foregroundColor: MyConstant.whColor,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
   );
 }

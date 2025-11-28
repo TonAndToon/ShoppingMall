@@ -27,23 +27,46 @@ class _AuthenState extends State<Authen> {
               buildAppName(),
               buildUser(size),
               buildPassword(size),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: size * 0.9,
-                    child: ElevatedButton(
-                      style: ButtonStyle(),
-                      onPressed: () {},
-                      child: Text('LOGIN'),
-                    ),
-                  ),
-                ],
-              ),
+              buildLogin(size),
+              buildCreateAccount(),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Row buildCreateAccount() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ShowTitle(title: 'Non Account ? ', textStyle: MyConstant().h4NmLCl()),
+        TextButton(
+          onPressed: () =>
+              Navigator.pushNamed(context, MyConstant.routeCreateAccount),
+          child: Text("Create Account", style: MyConstant().h4BPmrCl()),
+        ),
+      ],
+    );
+  }
+
+  Row buildLogin(double size) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 15),
+          width: size * 0.9,
+          child: ElevatedButton(
+            style: MyConstant().myButtonSPmr1(),
+            onPressed: () {},
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Text('LOGIN'),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
