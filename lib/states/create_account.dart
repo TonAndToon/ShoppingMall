@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoppingmall/utility/my_constant.dart';
+import 'package:shoppingmall/widgets/show_image.dart';
 import 'package:shoppingmall/widgets/show_title.dart';
 
 class CreateAccount extends StatefulWidget {
@@ -52,6 +53,7 @@ class _CreateAccountState extends State<CreateAccount> {
             maxLines: 4,
             decoration: InputDecoration(
               hintText: 'address :',
+              hintStyle: MyConstant().h4NmPmrCl(),
               prefixIcon: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 78),
                 child: Icon(Icons.home, color: MyConstant.primaryColor),
@@ -80,12 +82,9 @@ class _CreateAccountState extends State<CreateAccount> {
           width: size * 0.91,
           child: TextFormField(
             decoration: InputDecoration(
-              labelText: "name :",
+              labelText: "phone :",
               labelStyle: MyConstant().h4NmPmrCl(),
-              prefixIcon: Icon(
-                Icons.fingerprint,
-                color: MyConstant.primaryColor,
-              ),
+              prefixIcon: Icon(Icons.phone, color: MyConstant.primaryColor),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: MyConstant.primaryColor),
                 borderRadius: BorderRadius.circular(32.0),
@@ -113,7 +112,7 @@ class _CreateAccountState extends State<CreateAccount> {
               labelText: "user :",
               labelStyle: MyConstant().h4NmPmrCl(),
               prefixIcon: Icon(
-                Icons.fingerprint,
+                Icons.supervised_user_circle,
                 color: MyConstant.primaryColor,
               ),
               enabledBorder: OutlineInputBorder(
@@ -142,10 +141,7 @@ class _CreateAccountState extends State<CreateAccount> {
             decoration: InputDecoration(
               labelText: "password :",
               labelStyle: MyConstant().h4NmPmrCl(),
-              prefixIcon: Icon(
-                Icons.fingerprint,
-                color: MyConstant.primaryColor,
-              ),
+              prefixIcon: Icon(Icons.key, color: MyConstant.primaryColor),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: MyConstant.primaryColor),
                 borderRadius: BorderRadius.circular(32.0),
@@ -190,10 +186,47 @@ class _CreateAccountState extends State<CreateAccount> {
               buildPhone(size),
               buildUser(size),
               buildPassword(size),
+              buildTitlle('Image'),
+              buildSubTitle(),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.add_a_photo_outlined,
+                      size: 36,
+                      color: MyConstant.lightColor,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 24),
+                    width: size * 0.5,
+                    child: ShowImage(path: MyConstant.imgAvatar),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.add_photo_alternate_outlined,
+                      size: 36,
+                      color: MyConstant.primaryColor,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  ShowTitle buildSubTitle() {
+    return ShowTitle(
+      title:
+          '    You must show your picture to create a user, but you do not to show picture, (defule Avatar).',
+      textStyle: MyConstant().h3NmPmrCl(),
     );
   }
 

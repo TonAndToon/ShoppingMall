@@ -16,6 +16,7 @@ class MyConstant {
   static String img2 = 'assets/images/image2.webp';
   static String img3 = 'assets/images/image3.webp';
   static String img4 = 'assets/images/image4.webp';
+  static String imgAvatar = 'assets/images/user_Avatar.webp';
 
   //Colors
   static Color primaryColor = Color(0xff1E88E5);
