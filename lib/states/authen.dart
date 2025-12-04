@@ -161,6 +161,8 @@ class _AuthenState extends State<Authen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
+          margin: EdgeInsets.only(top: 95),
+
           width: size * 0.6,
           child: ShowImage(path: MyConstant.img4),
         ),
