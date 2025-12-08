@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shoppingmall/utility/my_constant.dart';
 import 'package:shoppingmall/utility/my_dialog.dart';
@@ -277,11 +278,30 @@ class _CreateAccountState extends State<CreateAccount> {
     );
   }
 
+  Set<Marker> setMarker() => <Marker>[
+    Marker(
+      markerId: MarkerId('id'),
+      position: LatLng(lat!, lng!),
+      infoWindow: InfoWindow(
+        title: 'You here',
+        snippet: 'Lat = $lat, lng = $lng',
+      ),
+    ),
+  ].toSet();
+
   Widget buildMap() => Container(
-    color: MyConstant.greyColor,
     width: double.infinity,
-    height: 200,
-    child: lat == null ? ShowProgress() : Text('Lat = $lat, Lng = $lng'),
+    height: 300,
+    child: lat == null
+        ? ShowProgress()
+        : GoogleMap(
+            initialCameraPosition: CameraPosition(
+              target: LatLng(lat!, lng!),
+              zoom: 16,
+            ),
+            onMapCreated: (controller) {},
+            markers: setMarker(),
+          ),
   );
 
   Future<Null> chooseImage(ImageSource source) async {
