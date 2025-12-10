@@ -7,16 +7,17 @@ import 'package:shoppingmall/widgets/show_image.dart';
 import 'package:shoppingmall/widgets/show_title.dart';
 
 class MyDialog {
-  Future<Null> alertLocationService(BuildContext context, String title,String message) async {
+  Future<Null> alertLocationService(
+    BuildContext context,
+    String title,
+    String message,
+  ) async {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: ListTile(
           leading: ShowImage(path: MyConstant.img4),
-          title: ShowTitle(
-            title: title,
-            textStyle: MyConstant().h5BDrkCl(),
-          ),
+          title: ShowTitle(title: title, textStyle: MyConstant().h5BDrkCl()),
           subtitle: ShowTitle(
             title: message,
             textStyle: MyConstant().h4NmPmrCl(),
@@ -30,6 +31,32 @@ class MyDialog {
               exit(0);
             },
             child: Text('Ok', style: MyConstant().h5NmPmrCl()),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<Null> normalDialog(
+    BuildContext context,
+    String title,
+    String message,
+  ) async {
+    showDialog(
+      context: context,
+      builder: (context) => SimpleDialog(
+        title: ListTile(
+          leading: ShowImage(path: MyConstant.img1),
+          title: ShowTitle(title: title, textStyle: MyConstant().h5BDrkCl()),
+          subtitle: ShowTitle(
+            title: message,
+            textStyle: MyConstant().h4NmPmrCl(),
+          ),
+        ),
+        children: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Ok'),
           ),
         ],
       ),

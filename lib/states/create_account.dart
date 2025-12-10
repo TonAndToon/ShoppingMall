@@ -21,6 +21,7 @@ class _CreateAccountState extends State<CreateAccount> {
   String? typeUser;
   File? file;
   double? lat, lng;
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -100,6 +101,11 @@ class _CreateAccountState extends State<CreateAccount> {
           margin: EdgeInsets.only(top: 0.0),
           width: size * 0.91,
           child: TextFormField(
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Please enter name';
+              } else {}
+            },
             decoration: InputDecoration(
               labelText: "name :",
               labelStyle: MyConstant().h4NmPmrCl(),
@@ -130,6 +136,11 @@ class _CreateAccountState extends State<CreateAccount> {
           margin: EdgeInsets.only(top: 0.0),
           width: size * 0.91,
           child: TextFormField(
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Please enter address';
+              } else {}
+            },
             maxLines: 4,
             decoration: InputDecoration(
               hintText: 'address :',
@@ -161,6 +172,12 @@ class _CreateAccountState extends State<CreateAccount> {
           margin: EdgeInsets.only(top: 15.0),
           width: size * 0.91,
           child: TextFormField(
+            keyboardType: TextInputType.phone,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Please enter phone';
+              } else {}
+            },
             decoration: InputDecoration(
               labelText: "phone :",
               labelStyle: MyConstant().h4NmPmrCl(),
@@ -188,6 +205,11 @@ class _CreateAccountState extends State<CreateAccount> {
           margin: EdgeInsets.only(top: 15.0),
           width: size * 0.91,
           child: TextFormField(
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Please enter user';
+              } else {}
+            },
             decoration: InputDecoration(
               labelText: "user :",
               labelStyle: MyConstant().h4NmPmrCl(),
@@ -218,6 +240,11 @@ class _CreateAccountState extends State<CreateAccount> {
           margin: EdgeInsets.only(top: 15.0),
           width: size * 0.91,
           child: TextFormField(
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Please enter password';
+              } else {}
+            },
             decoration: InputDecoration(
               labelText: "password :",
               labelStyle: MyConstant().h4NmPmrCl(),
@@ -242,6 +269,7 @@ class _CreateAccountState extends State<CreateAccount> {
     double size = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
+        actions: [builCreateNewAccount()],
         foregroundColor: MyConstant.whColor,
         title: Padding(
           padding: const EdgeInsets.all(78.0),
@@ -253,28 +281,53 @@ class _CreateAccountState extends State<CreateAccount> {
         padding: const EdgeInsets.all(15.0),
         child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-          child: ListView(
-            children: [
-              buildTitlle('Information'),
-              buildName(size),
-              buildTitlle('Type user'),
-              buildRadioBuyer(size),
-              buildRadioSeller(size),
-              buildRadioRider(size),
-              buildTitlle('Information'),
-              buildAddress(size),
-              buildPhone(size),
-              buildUser(size),
-              buildPassword(size),
-              buildTitlle('Image'),
-              buildSubTitle(),
-              buildAvatar(size),
-              buildTitlle('Show your location'),
-              buildMap(),
-            ],
+          child: Form(
+            key: formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  buildTitlle('General information'),
+                  buildName(size),
+                  buildTitlle('Type user'),
+                  buildRadioBuyer(size),
+                  buildRadioSeller(size),
+                  buildRadioRider(size),
+                  buildTitlle('Residence information'),
+                  buildAddress(size),
+                  buildPhone(size),
+                  buildUser(size),
+                  buildPassword(size),
+                  buildTitlle('Image'),
+                  buildSubTitle(),
+                  buildAvatar(size),
+                  buildTitlle('Show your location'),
+                  buildMap(),
+                ],
+              ),
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  IconButton builCreateNewAccount() {
+    return IconButton(
+      onPressed: () {
+        if (formKey.currentState!.validate()) {
+          if (typeUser == null) {
+            print('Non choose type user');
+            MyDialog().normalDialog(
+              context,
+              'User type not selected yet',
+              'Please select a user type.',
+            );
+          } else {
+            print('Process insert to database');
+          }
+        }
+      },
+      icon: Icon(Icons.cloud_upload_outlined, size: 32.0),
     );
   }
 
