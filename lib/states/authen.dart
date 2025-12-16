@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingmall/models/user_model.dart';
 import 'package:shoppingmall/utility/my_constant.dart';
 import 'package:shoppingmall/utility/my_dialog.dart';
@@ -91,7 +92,7 @@ class _AuthenState extends State<Authen> {
   Future<Null> checkAuthen(String user, String password) async {
     String apiCheckAuthen =
         '${MyConstant.domain}/shoppingmall/getUserWhereUser.php?isAdd=true&user=$user';
-    await Dio().get(apiCheckAuthen).then((value) {
+    await Dio().get(apiCheckAuthen).then((value) async {
       print('#### Value for API ==>> $value');
       if (value.toString() == 'null') {
         MyDialog().normalDialog(
@@ -106,11 +107,30 @@ class _AuthenState extends State<Authen> {
             //Success Authen
             String type = model.type;
             print(' Authen success in tpye ==>> $type');
+
+            SharedPreferences preferences =
+                await SharedPreferences.getInstance();
+            preferences.setString('type', type);
+            preferences.setString('user', model.user);
             switch (type) {
-              case 'buy':
-                Navigator.pushAndRemoveUntil(
+              case 'buyer':
+                Navigator.pushNamedAndRemoveUntil(
                   context,
                   MyConstant.routeBuyerService,
+                  (route) => false,
+                );
+                break;
+              case 'seller':
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  MyConstant.routeSellerService,
+                  (route) => false,
+                );
+                break;
+              case 'rider':
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  MyConstant.routeRiderService,
                   (route) => false,
                 );
                 break;

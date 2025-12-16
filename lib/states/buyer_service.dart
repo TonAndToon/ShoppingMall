@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shoppingmall/utility/my_constant.dart';
+import 'package:shoppingmall/widgets/show_signout.dart';
+import 'package:shoppingmall/widgets/show_title.dart';
 
 class BuyerService extends StatefulWidget {
   const BuyerService({super.key});
@@ -10,6 +14,13 @@ class BuyerService extends StatefulWidget {
 class _BuyerServiceState extends State<BuyerService> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: MyConstant.primaryColor,
+        title: Text('Buyer', style: MyConstant().h5NmWCl()),
+        iconTheme: IconThemeData(color: MyConstant.whColor),
+      ),
+      drawer: Drawer(child: ShowSignout()),
+    );
   }
 }

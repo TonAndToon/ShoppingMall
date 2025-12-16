@@ -38,6 +38,7 @@ dependencies:
   geolocator: ^14.0.2
   google_maps_flutter: ^2.14.0
   dio: ^5.9.0
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:

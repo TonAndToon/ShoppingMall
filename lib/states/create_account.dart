@@ -564,7 +564,7 @@ class _CreateAccountState extends State<CreateAccount> {
         Container(
           width: size * 0.6,
           child: RadioListTile(
-            value: "Rider",
+            value: "rider",
             groupValue: typeUser,
             onChanged: (value) {
               setState(() {
