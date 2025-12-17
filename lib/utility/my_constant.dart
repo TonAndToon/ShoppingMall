@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MyConstant {
   //General
   static String appName = 'Shopping Mall';
-  static String domain = 'https://aa7efb24eebc.ngrok-free.app';
+  static String domain = 'https://531c20ea4177.ngrok-free.app';
 
   //Route
   static String routeAuthen = '/authen';
@@ -11,12 +11,15 @@ class MyConstant {
   static String routeBuyerService = '/buyerService';
   static String routeSellerService = '/sellerService';
   static String routeRiderService = '/riderService';
+  static String routeAddProduct = '/addProduct';
 
   //Images
   static String img1 = 'assets/images/image1.webp';
   static String img2 = 'assets/images/image2.webp';
   static String img3 = 'assets/images/image3.webp';
   static String img4 = 'assets/images/image4.webp';
+  static String img5 = 'assets/images/image5.png';
+
   static String imgAvatar = 'assets/images/user_Avatar.webp';
 
   //Colors
@@ -1000,20 +1003,20 @@ class MyConstant {
   ButtonStyle myButtonSPmr1() => ElevatedButton.styleFrom(
     backgroundColor: MyConstant.primaryColor,
     foregroundColor: MyConstant.whColor,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
   );
   //Button style
   //Light color
   ButtonStyle myButtonSL2() => ElevatedButton.styleFrom(
     backgroundColor: MyConstant.lightColor,
     foregroundColor: MyConstant.whColor,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
   );
   //Button style
   //Dark color
   ButtonStyle myButtonSDrk3() => ElevatedButton.styleFrom(
     backgroundColor: MyConstant.darkColor,
     foregroundColor: MyConstant.whColor,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
   );
 }

@@ -166,19 +166,19 @@ class _AuthenState extends State<Authen> {
               }
             },
             decoration: InputDecoration(
-              labelText: "User :",
+              labelText: "User",
               labelStyle: MyConstant().h4NmPmrCl(),
               prefixIcon: Icon(
                 Icons.account_circle,
                 color: MyConstant.primaryColor,
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.primaryColor),
-                borderRadius: BorderRadius.circular(32.0),
+                borderSide: BorderSide(color: MyConstant.darkColor),
+                borderRadius: BorderRadius.circular(9.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.lightColor, width: 3),
-                borderRadius: BorderRadius.circular(32.0),
+                borderSide: BorderSide(color: MyConstant.lightColor, width: 1),
+                borderRadius: BorderRadius.circular(9.0),
               ),
             ),
           ),
@@ -218,19 +218,19 @@ class _AuthenState extends State<Authen> {
                         color: MyConstant.primaryColor,
                       ),
               ),
-              labelText: "Password :",
+              labelText: "Password",
               labelStyle: MyConstant().h4NmPmrCl(),
               prefixIcon: Icon(
                 Icons.key_outlined,
                 color: MyConstant.primaryColor,
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.primaryColor),
-                borderRadius: BorderRadius.circular(32.0),
+                borderSide: BorderSide(color: MyConstant.darkColor),
+                borderRadius: BorderRadius.circular(9.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.lightColor, width: 3),
-                borderRadius: BorderRadius.circular(32.0),
+                borderSide: BorderSide(color: MyConstant.lightColor, width: 1),
+                borderRadius: BorderRadius.circular(9.0),
               ),
             ),
           ),

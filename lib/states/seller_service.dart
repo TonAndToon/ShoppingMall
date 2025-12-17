@@ -34,7 +34,11 @@ class _SellerServiceState extends State<SellerService> {
             ShowSignout(),
             Column(
               children: [
-                UserAccountsDrawerHeader(accountName: null, accountEmail: null),
+                UserAccountsDrawerHeader(
+                  accountName: null,
+                  accountEmail: null,
+                  decoration: BoxDecoration(color: MyConstant.primaryColor),
+                ),
                 menuShowOrder(),
                 menuShopManage(),
                 menuShowProduct(),

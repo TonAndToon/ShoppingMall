@@ -116,7 +116,7 @@ class _CreateAccountState extends State<CreateAccount> {
               } else {}
             },
             decoration: InputDecoration(
-              labelText: "name :",
+              labelText: "name",
               labelStyle: MyConstant().h4NmPmrCl(),
               prefixIcon: Icon(
                 Icons.fingerprint,
@@ -124,11 +124,11 @@ class _CreateAccountState extends State<CreateAccount> {
               ),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: MyConstant.primaryColor),
-                borderRadius: BorderRadius.circular(32.0),
+                borderRadius: BorderRadius.circular(9.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.lightColor, width: 3),
-                borderRadius: BorderRadius.circular(32.0),
+                borderSide: BorderSide(color: MyConstant.lightColor, width: 2),
+                borderRadius: BorderRadius.circular(9.0),
               ),
             ),
           ),
@@ -153,7 +153,7 @@ class _CreateAccountState extends State<CreateAccount> {
             },
             maxLines: 4,
             decoration: InputDecoration(
-              hintText: 'address :',
+              hintText: 'address',
               hintStyle: MyConstant().h4NmPmrCl(),
               prefixIcon: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 78),
@@ -161,11 +161,11 @@ class _CreateAccountState extends State<CreateAccount> {
               ),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: MyConstant.primaryColor),
-                borderRadius: BorderRadius.circular(32.0),
+                borderRadius: BorderRadius.circular(9.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.lightColor, width: 3),
-                borderRadius: BorderRadius.circular(32.0),
+                borderSide: BorderSide(color: MyConstant.lightColor, width: 2),
+                borderRadius: BorderRadius.circular(9.0),
               ),
             ),
           ),
@@ -190,16 +190,16 @@ class _CreateAccountState extends State<CreateAccount> {
               } else {}
             },
             decoration: InputDecoration(
-              labelText: "phone :",
+              labelText: "phone",
               labelStyle: MyConstant().h4NmPmrCl(),
               prefixIcon: Icon(Icons.phone, color: MyConstant.primaryColor),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: MyConstant.primaryColor),
-                borderRadius: BorderRadius.circular(32.0),
+                borderRadius: BorderRadius.circular(9.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.lightColor, width: 3),
-                borderRadius: BorderRadius.circular(32.0),
+                borderSide: BorderSide(color: MyConstant.lightColor, width: 2),
+                borderRadius: BorderRadius.circular(9.0),
               ),
             ),
           ),
@@ -223,7 +223,7 @@ class _CreateAccountState extends State<CreateAccount> {
               } else {}
             },
             decoration: InputDecoration(
-              labelText: "user :",
+              labelText: "user",
               labelStyle: MyConstant().h4NmPmrCl(),
               prefixIcon: Icon(
                 Icons.supervised_user_circle,
@@ -231,11 +231,11 @@ class _CreateAccountState extends State<CreateAccount> {
               ),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: MyConstant.primaryColor),
-                borderRadius: BorderRadius.circular(32.0),
+                borderRadius: BorderRadius.circular(9.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.lightColor, width: 3),
-                borderRadius: BorderRadius.circular(32.0),
+                borderSide: BorderSide(color: MyConstant.lightColor, width: 2),
+                borderRadius: BorderRadius.circular(9.0),
               ),
             ),
           ),
@@ -259,16 +259,16 @@ class _CreateAccountState extends State<CreateAccount> {
               } else {}
             },
             decoration: InputDecoration(
-              labelText: "password :",
+              labelText: "password",
               labelStyle: MyConstant().h4NmPmrCl(),
               prefixIcon: Icon(Icons.key, color: MyConstant.primaryColor),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: MyConstant.primaryColor),
-                borderRadius: BorderRadius.circular(32.0),
+                borderRadius: BorderRadius.circular(9.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.lightColor, width: 3),
-                borderRadius: BorderRadius.circular(32.0),
+                borderSide: BorderSide(color: MyConstant.lightColor, width: 2),
+                borderRadius: BorderRadius.circular(9.0),
               ),
             ),
           ),
@@ -341,7 +341,7 @@ class _CreateAccountState extends State<CreateAccount> {
           }
         }
       },
-      icon: Icon(Icons.cloud_upload_outlined, size: 32.0),
+      icon: Icon(Icons.cloud_upload_outlined, size: 9.0),
     );
   }
 
