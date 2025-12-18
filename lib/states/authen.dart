@@ -52,7 +52,7 @@ class _AuthenState extends State<Authen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ShowTitle(title: 'Non Account ? ', textStyle: MyConstant().h4NmLCl()),
+        ShowTitle(title: 'Non Account ?', textStyle: MyConstant().h4NmLCl()),
         TextButton(
           onPressed: () =>
               Navigator.pushNamed(context, MyConstant.routeCreateAccount),
@@ -80,8 +80,8 @@ class _AuthenState extends State<Authen> {
               }
             },
             child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Text('LOGIN'),
+              padding: const EdgeInsets.all(14.0),
+              child: Text('LOGIN', style: MyConstant().h4NmWCl()),
             ),
           ),
         ),
@@ -173,11 +173,15 @@ class _AuthenState extends State<Authen> {
                 color: MyConstant.primaryColor,
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.darkColor),
+                borderSide: BorderSide(color: MyConstant.lightColor),
                 borderRadius: BorderRadius.circular(9.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.lightColor, width: 1),
+                borderSide: BorderSide(color: MyConstant.darkColor, width: 1),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyConstant.redColor, width: 1),
                 borderRadius: BorderRadius.circular(9.0),
               ),
             ),
@@ -225,11 +229,15 @@ class _AuthenState extends State<Authen> {
                 color: MyConstant.primaryColor,
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.darkColor),
+                borderSide: BorderSide(color: MyConstant.lightColor),
                 borderRadius: BorderRadius.circular(9.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.lightColor, width: 1),
+                borderSide: BorderSide(color: MyConstant.darkColor, width: 1),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyConstant.redColor, width: 1),
                 borderRadius: BorderRadius.circular(9.0),
               ),
             ),

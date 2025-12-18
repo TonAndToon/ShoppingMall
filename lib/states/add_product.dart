@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shoppingmall/utility/my_constant.dart';
+import 'package:shoppingmall/widgets/show_image.dart';
+import 'package:shoppingmall/widgets/show_title.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({super.key});
@@ -10,7 +12,7 @@ class AddProduct extends StatefulWidget {
 
 class _AddProductState extends State<AddProduct> {
   // bool statusRedEye = true;
-  // final formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController detailController = TextEditingController();
@@ -29,16 +31,79 @@ class _AddProductState extends State<AddProduct> {
           onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
           behavior: HitTestBehavior.opaque,
           child: Center(
-            child: Column(
-              children: [
-                buildProductName(constraints),
-                buildProductPrice(constraints),
-                buildProductDetail(constraints),
-                buildImage(constraints),
-              ],
+            child: SingleChildScrollView(
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    buildProductName(constraints),
+                    buildProductPrice(constraints),
+                    buildProductDetail(constraints),
+                    buildImage(constraints),
+                    addProductButton(constraints),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Row addProductButton(BoxConstraints constraints) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 24),
+          width: constraints.maxWidth * 0.95,
+          child: ElevatedButton(
+            style: MyConstant().myButtonSPmr1(),
+            onPressed: () {
+              if (formKey.currentState!.validate()) {}
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(14.0),
+              child: Text('ADD PRODUCT', style: MyConstant().h4NmWCl()),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<Null> chooseSourceImageDialog(int index) async {
+    print('Click from index ==>> $index');
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: ListTile(
+          leading: ShowImage(path: MyConstant.img4),
+          title: ShowTitle(
+            title: 'Source image ${index + 1}',
+            textStyle: MyConstant().h4BPmrCl(),
+          ),
+          subtitle: ShowTitle(
+            title: 'Please tab on camera or gallery 😊👇🏿',
+            textStyle: MyConstant().h3NmPmrCl(),
+          ),
+        ),
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('camera', style: MyConstant().h4BDrkCl()),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('gallery', style: MyConstant().h4BDrkCl()),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -47,34 +112,49 @@ class _AddProductState extends State<AddProduct> {
     return Column(
       children: [
         Container(
-          width: constraints.maxWidth * 0.52,
-          height: constraints.maxHeight * 0.52,
+          padding: EdgeInsets.only(top: 32, bottom: 24),
+          width: constraints.maxWidth * 0.78,
+          height: constraints.maxWidth * 0.78,
           child: Image.asset(MyConstant.img5),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 42,
-              height: 42,
-              child: Image.asset(MyConstant.img5),
-            ),
-            Container(
-              width: 42,
-              height: 42,
-              child: Image.asset(MyConstant.img5),
-            ),
-            Container(
-              width: 42,
-              height: 42,
-              child: Image.asset(MyConstant.img5),
-            ),
-            Container(
-              width: 42,
-              height: 42,
-              child: Image.asset(MyConstant.img5),
-            ),
-          ],
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                width: 52,
+                height: 52,
+                child: InkWell(
+                  onTap: () => chooseSourceImageDialog(0),
+                  child: Image.asset(MyConstant.img5),
+                ),
+              ),
+              Container(
+                width: 52,
+                height: 52,
+                child: InkWell(
+                  onTap: () => chooseSourceImageDialog(1),
+                  child: Image.asset(MyConstant.img5),
+                ),
+              ),
+              Container(
+                width: 52,
+                height: 52,
+                child: InkWell(
+                  onTap: () => chooseSourceImageDialog(2),
+                  child: Image.asset(MyConstant.img5),
+                ),
+              ),
+              Container(
+                width: 52,
+                height: 52,
+                child: InkWell(
+                  onTap: () => chooseSourceImageDialog(3),
+                  child: Image.asset(MyConstant.img5),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -104,11 +184,15 @@ class _AddProductState extends State<AddProduct> {
                 color: MyConstant.lightColor,
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.darkColor),
+                borderSide: BorderSide(color: MyConstant.lightColor),
                 borderRadius: BorderRadius.circular(9.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.lightColor, width: 1),
+                borderSide: BorderSide(color: MyConstant.darkColor, width: 1),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyConstant.redColor, width: 1),
                 borderRadius: BorderRadius.circular(9.0),
               ),
             ),
@@ -142,11 +226,15 @@ class _AddProductState extends State<AddProduct> {
                 color: MyConstant.lightColor,
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.darkColor),
+                borderSide: BorderSide(color: MyConstant.lightColor),
                 borderRadius: BorderRadius.circular(9.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.lightColor, width: 1),
+                borderSide: BorderSide(color: MyConstant.darkColor, width: 1),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyConstant.redColor, width: 1),
                 borderRadius: BorderRadius.circular(9.0),
               ),
             ),
@@ -182,11 +270,15 @@ class _AddProductState extends State<AddProduct> {
                 child: Icon(Icons.list_alt, color: MyConstant.lightColor),
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.darkColor),
+                borderSide: BorderSide(color: MyConstant.lightColor),
                 borderRadius: BorderRadius.circular(9.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.lightColor, width: 1),
+                borderSide: BorderSide(color: MyConstant.darkColor, width: 1),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyConstant.redColor, width: 1),
                 borderRadius: BorderRadius.circular(9.0),
               ),
             ),

@@ -130,6 +130,10 @@ class _CreateAccountState extends State<CreateAccount> {
                 borderSide: BorderSide(color: MyConstant.lightColor, width: 2),
                 borderRadius: BorderRadius.circular(9.0),
               ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyConstant.redColor, width: 1),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
             ),
           ),
         ),
@@ -167,6 +171,10 @@ class _CreateAccountState extends State<CreateAccount> {
                 borderSide: BorderSide(color: MyConstant.lightColor, width: 2),
                 borderRadius: BorderRadius.circular(9.0),
               ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyConstant.redColor, width: 1),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
             ),
           ),
         ),
@@ -198,7 +206,11 @@ class _CreateAccountState extends State<CreateAccount> {
                 borderRadius: BorderRadius.circular(9.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.lightColor, width: 2),
+                borderSide: BorderSide(color: MyConstant.lightColor, width: 1),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyConstant.redColor, width: 1),
                 borderRadius: BorderRadius.circular(9.0),
               ),
             ),
@@ -234,7 +246,11 @@ class _CreateAccountState extends State<CreateAccount> {
                 borderRadius: BorderRadius.circular(9.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.lightColor, width: 2),
+                borderSide: BorderSide(color: MyConstant.lightColor, width: 1),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyConstant.redColor, width: 1),
                 borderRadius: BorderRadius.circular(9.0),
               ),
             ),
@@ -267,7 +283,11 @@ class _CreateAccountState extends State<CreateAccount> {
                 borderRadius: BorderRadius.circular(9.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.lightColor, width: 2),
+                borderSide: BorderSide(color: MyConstant.lightColor, width: 1),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyConstant.redColor, width: 1),
                 borderRadius: BorderRadius.circular(9.0),
               ),
             ),
@@ -341,7 +361,7 @@ class _CreateAccountState extends State<CreateAccount> {
           }
         }
       },
-      icon: Icon(Icons.cloud_upload_outlined, size: 9.0),
+      icon: Icon(Icons.cloud_upload_outlined, size: 32.0),
     );
   }
 
