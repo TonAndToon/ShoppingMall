@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shoppingmall/utility/my_constant.dart';
+import 'package:shoppingmall/utility/my_dialog.dart';
 import 'package:shoppingmall/widgets/show_image.dart';
 import 'package:shoppingmall/widgets/show_title.dart';
 
@@ -13,15 +17,37 @@ class AddProduct extends StatefulWidget {
 class _AddProductState extends State<AddProduct> {
   // bool statusRedEye = true;
   final formKey = GlobalKey<FormState>();
+  List<File?> files = [];
+  File? file;
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController detailController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initialFile();
+  }
+
+  void initialFile() {
+    for (var i = 0; i < 4; i++) {
+      files.add(null);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    double size = MediaQuery.of(context).size.width;
+    // double size = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: MyConstant.whColor,
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () => processAddProduct(),
+            icon: Icon(Icons.cloud_upload_outlined, size: 32),
+          ),
+        ],
         backgroundColor: MyConstant.primaryColor,
         title: Text('Add product', style: MyConstant().h5NmWCl()),
         iconTheme: IconThemeData(color: MyConstant.whColor),
@@ -61,7 +87,7 @@ class _AddProductState extends State<AddProduct> {
           child: ElevatedButton(
             style: MyConstant().myButtonSPmr1(),
             onPressed: () {
-              if (formKey.currentState!.validate()) {}
+              processAddProduct();
             },
             child: Padding(
               padding: const EdgeInsets.all(14.0),
@@ -71,6 +97,41 @@ class _AddProductState extends State<AddProduct> {
         ),
       ],
     );
+  }
+
+  void processAddProduct() {
+    if (formKey.currentState!.validate()) {
+      bool checkFile = true;
+      for (var item in files) {
+        if (item == null) {
+          checkFile = false;
+        }
+      }
+      if (checkFile) {
+        print('#### choose 4 image success');
+      } else {
+        MyDialog().normalDialog(
+          context,
+          'More image',
+          'Please Choose more image',
+        );
+      }
+    }
+  }
+
+  Future<Null> processImagePicker(ImageSource source, int index) async {
+    try {
+      var result = await ImagePicker().pickImage(
+        source: source,
+        maxHeight: 800,
+        maxWidth: 800,
+      );
+
+      setState(() {
+        file = File(result!.path);
+        files[index] = file;
+      });
+    } catch (e) {}
   }
 
   Future<Null> chooseSourceImageDialog(int index) async {
@@ -94,11 +155,17 @@ class _AddProductState extends State<AddProduct> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               TextButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () {
+                  Navigator.pop(context);
+                  processImagePicker(ImageSource.camera, index);
+                },
                 child: Text('camera', style: MyConstant().h4BDrkCl()),
               ),
               TextButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () {
+                  Navigator.pop(context);
+                  processImagePicker(ImageSource.gallery, index);
+                },
                 child: Text('gallery', style: MyConstant().h4BDrkCl()),
               ),
             ],
@@ -115,7 +182,9 @@ class _AddProductState extends State<AddProduct> {
           padding: EdgeInsets.only(top: 32, bottom: 24),
           width: constraints.maxWidth * 0.78,
           height: constraints.maxWidth * 0.78,
-          child: Image.asset(MyConstant.img5),
+          child: file == null
+              ? Image.asset(MyConstant.img5)
+              : Image.file(file!),
         ),
         Container(
           child: Row(
@@ -126,7 +195,9 @@ class _AddProductState extends State<AddProduct> {
                 height: 52,
                 child: InkWell(
                   onTap: () => chooseSourceImageDialog(0),
-                  child: Image.asset(MyConstant.img5),
+                  child: files[0] == null
+                      ? Image.asset(MyConstant.img5)
+                      : Image.file(files[0]!),
                 ),
               ),
               Container(
@@ -134,7 +205,9 @@ class _AddProductState extends State<AddProduct> {
                 height: 52,
                 child: InkWell(
                   onTap: () => chooseSourceImageDialog(1),
-                  child: Image.asset(MyConstant.img5),
+                  child: files[1] == null
+                      ? Image.asset(MyConstant.img5)
+                      : Image.file(files[1]!),
                 ),
               ),
               Container(
@@ -142,7 +215,9 @@ class _AddProductState extends State<AddProduct> {
                 height: 52,
                 child: InkWell(
                   onTap: () => chooseSourceImageDialog(2),
-                  child: Image.asset(MyConstant.img5),
+                  child: files[2] == null
+                      ? Image.asset(MyConstant.img5)
+                      : Image.file(files[2]!),
                 ),
               ),
               Container(
@@ -150,7 +225,9 @@ class _AddProductState extends State<AddProduct> {
                 height: 52,
                 child: InkWell(
                   onTap: () => chooseSourceImageDialog(3),
-                  child: Image.asset(MyConstant.img5),
+                  child: files[3] == null
+                      ? Image.asset(MyConstant.img5)
+                      : Image.file(files[3]!),
                 ),
               ),
             ],

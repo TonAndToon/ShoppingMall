@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MyConstant {
   //General
   static String appName = 'Shopping Mall';
-  static String domain = 'https://2d9ed9e8b738.ngrok-free.app';
+  static String domain = 'https://456018fb728e.ngrok-free.app';
 
   //Route
   static String routeAuthen = '/authen';
