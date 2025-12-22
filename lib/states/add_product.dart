@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'dart:math';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shoppingmall/utility/my_constant.dart';
@@ -99,7 +101,7 @@ class _AddProductState extends State<AddProduct> {
     );
   }
 
-  void processAddProduct() {
+  void processAddProduct() async {
     if (formKey.currentState!.validate()) {
       bool checkFile = true;
       for (var item in files) {
@@ -108,7 +110,32 @@ class _AddProductState extends State<AddProduct> {
         }
       }
       if (checkFile) {
-        print('#### choose 4 image success');
+        // print('#### choose 4 image success');
+
+        MyDialog().showProgressDialog(context);
+
+        String apiSaveProduct =
+            '${MyConstant.domain}/shoppingmall/saveProduct.php';
+        // print('#### apiServiceProduct == $apiSaveProduct');
+        int loop = 0;
+        for (var item in files) {
+          int i = Random().nextInt(1000000);
+          String nameFile = 'product$i.jpg';
+          Map<String, dynamic> map = {};
+
+          map['file'] = await MultipartFile.fromFile(
+            item!.path,
+            filename: nameFile,
+          );
+          FormData data = FormData.fromMap(map);
+          await Dio().post(apiSaveProduct, data: data).then((value) {
+            print('Upload success');
+            loop++;
+            if (loop >= files.length) {
+              Navigator.pop(context);
+            }
+          });
+        }
       } else {
         MyDialog().normalDialog(
           context,
