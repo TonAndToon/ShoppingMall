@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MyConstant {
   //General
   static String appName = 'Shopping Mall';
-  static String domain = 'https://a690758cf5d4.ngrok-free.app';
+  static String domain = 'https://bfc8adf3530a.ngrok-free.app';
 
   //Route
   static String routeAuthen = '/authen';
@@ -30,6 +30,7 @@ class MyConstant {
   static Color redColor = Colors.red;
   static Color greyColor = Colors.grey.shade300;
   static Color grey2Color = Colors.grey.shade500;
+  static Color grey3Color = Colors.grey.shade50;
   static Color bkColor = Colors.black;
 
   static Map<int, Color> mapMaterialColor = {
