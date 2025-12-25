@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingmall/models/product_model.dart';
 import 'package:shoppingmall/utility/my_constant.dart';
+import 'package:shoppingmall/widgets/show_image.dart';
 import 'package:shoppingmall/widgets/show_progress.dart';
 import 'package:shoppingmall/widgets/show_title.dart';
 
@@ -58,6 +60,7 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MyConstant.grey3Color,
       body: load
           ? ShowProgress()
           : haveData!
@@ -89,32 +92,71 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
     );
   }
 
+  String createUrl(String string) {
+    String result = string.substring(1, string.length - 1);
+    List<String> strings = result.split(',');
+    String url = '${MyConstant.domain}/shoppingmall${strings[0]}';
+    return url;
+  }
+
   ListView buildListView(BoxConstraints constraints) {
     return ListView.builder(
       itemCount: productModels.length,
       itemBuilder: (context, index) => Card(
         margin: EdgeInsets.all(8.0),
-        color: MyConstant.grey3Color,
+        color: MyConstant.whColor,
         child: Row(
           children: [
             Container(
-              width: constraints.maxWidth * 0.4,
-              child: ShowTitle(
-                title: productModels[index].name,
-                textStyle: MyConstant().h4BPmrCl(),
+              padding: EdgeInsets.all(4.0),
+              width: constraints.maxWidth * 0.5 - 4,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ShowTitle(
+                    title: productModels[index].name,
+                    textStyle: MyConstant().h5BBkCl(),
+                  ),
+                  Container(
+                    height: constraints.maxWidth * 0.5,
+                    child: CachedNetworkImage(
+                      imageUrl: createUrl(productModels[index].images),
+                      placeholder: (context, url) => ShowProgress(),
+                      errorWidget: (context, url, error) =>
+                          ShowImage(path: MyConstant.img1),
+                    ),
+                  ),
+                ],
               ),
             ),
             Container(
-              width: constraints.maxWidth * 0.5,
+              padding: EdgeInsets.all(4.0),
+              width: constraints.maxWidth * 0.4 - 4,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ShowTitle(
                     title: 'Price: ${productModels[index].price} THB',
-                    textStyle: MyConstant().h4NmRdCl(),
+                    textStyle: MyConstant().h4BBkCl(),
                   ),
                   ShowTitle(
                     title: productModels[index].detail,
-                    textStyle: MyConstant().h3NmPmrCl(),
+                    textStyle: MyConstant().h3NmGrey2Cl(),
+                  ),
+                  Row(
+                    children: [
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'EDIT',
+                          style: TextStyle(color: MyConstant.green1Color),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: Text('DELETE', style: MyConstant().h4BRdCl()),
+                      ),
+                    ],
                   ),
                 ],
               ),
