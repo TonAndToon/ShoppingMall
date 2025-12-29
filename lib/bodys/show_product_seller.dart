@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingmall/models/product_model.dart';
+import 'package:shoppingmall/states/edit_product.dart';
 import 'package:shoppingmall/utility/my_constant.dart';
 import 'package:shoppingmall/widgets/show_image.dart';
 import 'package:shoppingmall/widgets/show_progress.dart';
@@ -28,6 +29,9 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
   }
 
   Future<Null> loadValueFromAPI() async {
+    if (productModels.length != 0) {
+      productModels.clear();
+    } else {}
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String id = preferences.getString('id')!;
     String apiGetProductWhereIdSeller =
@@ -83,11 +87,20 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
               ),
             ),
 
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: MyConstant.primaryColor,
-        onPressed: () =>
-            Navigator.pushNamed(context, MyConstant.routeAddProduct),
-        child: Text('Add', style: MyConstant().h4NmWCl()),
+      floatingActionButton: Container(
+        alignment: Alignment.bottomCenter,
+        width: 56,
+        child: FloatingActionButton(
+          backgroundColor: MyConstant.primaryColor,
+          onPressed: () => Navigator.pushNamed(
+            context,
+            MyConstant.routeAddProduct,
+          ).then((value) => loadValueFromAPI()),
+          child: Container(
+            alignment: Alignment.center,
+            child: Icon(Icons.add, color: MyConstant.whColor, size: 32.0),
+          ),
+        ),
       ),
     );
   }
@@ -118,7 +131,8 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
                     textStyle: MyConstant().h5BBkCl(),
                   ),
                   Container(
-                    height: constraints.maxWidth * 0.5,
+                    padding: EdgeInsets.symmetric(vertical: 15.0),
+                    height: constraints.maxWidth * 0.6,
                     child: CachedNetworkImage(
                       imageUrl: createUrl(productModels[index].images),
                       placeholder: (context, url) => ShowProgress(),
@@ -130,10 +144,10 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(4.0),
-              width: constraints.maxWidth * 0.4 - 4,
+              padding: EdgeInsets.all(2.0),
+              width: constraints.maxWidth * 0.4 - 2,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   ShowTitle(
                     title: 'Price: ${productModels[index].price} THB',
@@ -144,17 +158,29 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
                     textStyle: MyConstant().h3NmGrey2Cl(),
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          print('#### You click Edid');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditProduct(productModel: productModels[index],),
+                            ),
+                          );
+                        },
                         child: Text(
                           'EDIT',
                           style: TextStyle(color: MyConstant.green1Color),
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
-                        child: Text('DELETE', style: MyConstant().h4BRdCl()),
+                        onPressed: () {
+                          print('#### You click Delete from index = $index');
+                          confirmDailogDelete(productModels[index]);
+                        },
+                        child: Text('DEL', style: MyConstant().h4BRdCl()),
                       ),
                     ],
                   ),
@@ -163,6 +189,46 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Future<Null> confirmDailogDelete(ProductModel productModel) async {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: ListTile(
+          leading: CachedNetworkImage(
+            imageUrl: createUrl(productModel.images),
+            placeholder: (context, url) => ShowProgress(),
+          ),
+          title: ShowTitle(
+            title: 'Delete ${productModel.name} ?',
+            textStyle: MyConstant().h4BPmrCl(),
+          ),
+          subtitle: ShowTitle(
+            title: productModel.detail,
+            textStyle: MyConstant().h2NmPmrCl(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              print('#### Confirm delete at id == >> ${productModel.id}');
+              String apiDeleteProductWhereId =
+                  '${MyConstant.domain}/shoppingmall/deleteProductWhereId.php?isAdd=true&id=${productModel.id}';
+              await Dio().get(apiDeleteProductWhereId).then((value) {
+                Navigator.pop(context);
+                loadValueFromAPI();
+              });
+            },
+            child: Text('Delete'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancle'),
+          ),
+        ],
       ),
     );
   }
