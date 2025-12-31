@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:nativewrappers/_internal/vm/lib/math_patch.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -24,6 +25,7 @@ class _EditProductState extends State<EditProduct> {
 
   List<String> pathImages = [];
   List<File?> files = [];
+  bool statusImage = false;
 
   @override
   void initState() {
@@ -124,6 +126,7 @@ class _EditProductState extends State<EditProduct> {
       );
       setState(() {
         files[index] = File(result!.path);
+        statusImage = true;
       });
     } catch (e) {}
   }
@@ -309,7 +312,24 @@ class _EditProductState extends State<EditProduct> {
       String name = nameController.text;
       String price = priceController.text;
       String detail = detailController.text;
-      print('#### name = $name, price = $price, detail = $detail');
+      String id = productModel!.id;
+      String images;
+
+      if (statusImage) {
+        //upload image and refresh array pathImages
+        int index = 0;
+
+        for (var item in files) {
+          if (item != null) {}
+        }
+        images = 'Wait refresh';
+      } else {
+        images = pathImages.toString();
+      }
+
+      print('#### statusImage = $statusImage');
+      print('#### id = $id, name = $name, price = $price, detail = $detail');
+      print('#### images = $images');
     }
   }
 }

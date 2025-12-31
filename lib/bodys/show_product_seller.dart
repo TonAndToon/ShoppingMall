@@ -166,7 +166,9 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => EditProduct(productModel: productModels[index],),
+                              builder: (context) => EditProduct(
+                                productModel: productModels[index],
+                              ),
                             ),
                           );
                         },
