@@ -1,10 +1,14 @@
 import 'dart:io';
-import 'dart:nativewrappers/_internal/vm/lib/math_patch.dart';
+import 'dart:math';
+// import 'dart:nativewrappers/_internal/vm/lib/math_patch.dart' hide Random;
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shoppingmall/models/product_model.dart';
 import 'package:shoppingmall/utility/my_constant.dart';
+import 'package:shoppingmall/utility/my_dialog.dart';
+import 'package:shoppingmall/widgets/show_progress.dart';
 import 'package:shoppingmall/widgets/show_title.dart';
 
 class EditProduct extends StatefulWidget {
@@ -151,6 +155,7 @@ class _EditProductState extends State<EditProduct> {
                     width: constraints.maxWidth * 0.42,
                     imageUrl:
                         '${MyConstant.domain}/shoppingmall/${pathImages[index]}',
+                    placeholder: (context, url) => ShowProgress(),
                   )
                 : Image.file(files[index]!),
           ),
@@ -307,8 +312,9 @@ class _EditProductState extends State<EditProduct> {
     );
   }
 
-  void processEdit() {
+  Future<Null> processEdit() async {
     if (formKey.currentState!.validate()) {
+      MyDialog().showProgressDialog(context);
       String name = nameController.text;
       String price = priceController.text;
       String detail = detailController.text;
@@ -320,16 +326,38 @@ class _EditProductState extends State<EditProduct> {
         int index = 0;
 
         for (var item in files) {
-          if (item != null) {}
+          if (item != null) {
+            int i = Random().nextInt(1000000);
+            String nameImage = 'productEdit$i.jpg';
+            String apiUploadImage =
+                '${MyConstant.domain}/shoppingmall/saveProduct.php';
+
+            Map<String, dynamic> map = {};
+            map['file'] = await MultipartFile.fromFile(
+              item.path,
+              filename: nameImage,
+            );
+            FormData formData = FormData.fromMap(map);
+            await Dio().post(apiUploadImage, data: formData).then((value) {
+              pathImages[index] = '/product/$nameImage';
+            });
+          }
+          index++;
         }
-        images = 'Wait refresh';
+        images = pathImages.toString();
+        Navigator.pop(context);
       } else {
         images = pathImages.toString();
+        Navigator.pop(context);
       }
 
       print('#### statusImage = $statusImage');
       print('#### id = $id, name = $name, price = $price, detail = $detail');
       print('#### images = $images');
+
+      String apiEditProduct =
+          '${MyConstant.domain}/shoppingmall/editProductWhereId.php?isAdd=true&id=$id&name=$name&price=$price&detail=$detail&images=$images';
+      await Dio().get(apiEditProduct).then((value) => Navigator.pop(context));
     }
   }
 }

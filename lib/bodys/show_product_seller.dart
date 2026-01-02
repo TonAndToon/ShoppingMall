@@ -1,4 +1,5 @@
 import 'dart:convert';
+// import 'dart:nativewrappers/_internal/vm/lib/internal_patch.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
@@ -170,7 +171,7 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
                                 productModel: productModels[index],
                               ),
                             ),
-                          );
+                          ).then((value) => loadValueFromAPI());
                         },
                         child: Text(
                           'EDIT',
