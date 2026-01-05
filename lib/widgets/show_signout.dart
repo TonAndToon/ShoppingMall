@@ -26,7 +26,7 @@ class ShowSignout extends StatelessWidget {
           leading: Icon(Icons.exit_to_app),
           title: ShowTitle(
             title: 'Sign out',
-            textStyle: MyConstant().h5NmRdCl(),
+            textStyle: MyConstant().h4NmRdCl(),
           ),
           subtitle: ShowTitle(
             title: 'sign out and go to authen',
@@ -35,5 +35,5 @@ class ShowSignout extends StatelessWidget {
         ),
       ],
     );
-}
+  }
 }
