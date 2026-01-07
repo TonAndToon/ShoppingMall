@@ -1,10 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingmall/models/user_model.dart';
 import 'package:shoppingmall/utility/my_constant.dart';
+import 'package:shoppingmall/widgets/show_image.dart';
+import 'package:shoppingmall/widgets/show_progress.dart';
 import 'package:shoppingmall/widgets/show_title.dart';
 
 class EditProfileSeller extends StatefulWidget {
@@ -16,12 +22,43 @@ class EditProfileSeller extends StatefulWidget {
 
 class _EditProfileSellerState extends State<EditProfileSeller> {
   UserModel? userModel;
+  String? typeUser;
+  String avatar = '';
+  File? file;
+  double? lat, lng;
+  final formKey = GlobalKey<FormState>();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  LatLng? latLng;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     findUser();
+    findLatLng();
+    // findPosition();
+  }
+
+  Future<Null> findLatLng() async {
+    Position? position = await findPosition();
+    if (position != null) {
+      setState(() {
+        latLng = position as LatLng?;
+        print('lat  = ${latLng!.latitude}');
+      });
+    }
+  }
+
+  Future<Position?> findPosition() async {
+    Position? position;
+    try {
+      position = await Geolocator.getCurrentPosition();
+    } catch (e) {
+      position = null;
+    }
+    return position;
   }
 
   Future<Null> findUser() async {
@@ -35,6 +72,9 @@ class _EditProfileSellerState extends State<EditProfileSeller> {
       for (var item in json.decode(value.data)) {
         setState(() {
           userModel = UserModel.fromMap(item);
+          nameController.text = userModel!.name;
+          addressController.text = userModel!.address;
+          phoneController.text = userModel!.phone;
         });
       }
     });
@@ -42,6 +82,7 @@ class _EditProfileSellerState extends State<EditProfileSeller> {
 
   @override
   Widget build(BuildContext context) {
+    double size = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: MyConstant.whColor,
       appBar: AppBar(
@@ -49,7 +90,229 @@ class _EditProfileSellerState extends State<EditProfileSeller> {
         foregroundColor: MyConstant.whColor,
         title: Text('Edit profile Seller.'),
       ),
-      body: ShowTitle(title: 'Name shop', textStyle: MyConstant().h4BPmrCl()),
+      body: LayoutBuilder(
+        builder: (context, constraints) => GestureDetector(
+          onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+          behavior: HitTestBehavior.opaque,
+          child: SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    children: [
+                      buildTitle('General'),
+                      buildName(size),
+                      buildAddress(size),
+                      buildPhone(size),
+                      buildTitle('Avatar'),
+                      buildAvatar(size),
+                      buildTitle('Location'),
+                      buildMap(size),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Row buildMap(double size) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          decoration: BoxDecoration(border: Border.all()),
+          margin: EdgeInsets.symmetric(vertical: 16),
+          width: size * 0.78,
+          height: size * 0.78,
+          child: latLng == null
+              ? ShowProgress()
+              : Text('lat  = ${latLng!.latitude}'),
+        ),
+      ],
+    );
+  }
+
+  Row buildAvatar(double size) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          child: Row(
+            children: [
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.add_a_photo,
+                  color: MyConstant.lightColor,
+                  size: 32,
+                ),
+              ),
+              Container(
+                width: size * 0.68,
+                height: size * 0.68,
+                child: userModel == null
+                    ? ShowProgress()
+                    : Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: userModel?.avatar == null
+                            ? ShowImage(path: MyConstant.imgAvatar)
+                            : CachedNetworkImage(
+                                imageUrl:
+                                    '${MyConstant.domain}${userModel!.avatar}',
+                                placeholder: (context, url) => ShowProgress(),
+                              ),
+                      ),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.add_photo_alternate,
+                  color: MyConstant.primaryColor,
+                  size: 32,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row buildName(double size) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          margin: EdgeInsets.only(top: 16),
+          width: size * 0.91,
+          child: TextFormField(
+            controller: nameController,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Please Fill  name in blank';
+              } else {
+                return null;
+              }
+            },
+            decoration: InputDecoration(
+              labelText: "Name",
+              labelStyle: MyConstant().h4NmPmrCl(),
+              prefixIcon: Icon(Icons.person, color: MyConstant.lightColor),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyConstant.lightColor),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyConstant.darkColor, width: 1),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyConstant.redColor, width: 1),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row buildAddress(double size) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          margin: EdgeInsets.only(top: 16),
+          width: size * 0.91,
+          child: TextFormField(
+            maxLines: 4,
+            controller: addressController,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Please Fill address in blank';
+              } else {
+                return null;
+              }
+            },
+            decoration: InputDecoration(
+              hintText: 'Address',
+              hintStyle: MyConstant().h4NmPmrCl(),
+              labelStyle: MyConstant().h4NmPmrCl(),
+              prefixIcon: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 78),
+                child: Icon(Icons.home_filled, color: MyConstant.lightColor),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyConstant.lightColor),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyConstant.darkColor, width: 1),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyConstant.redColor, width: 1),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row buildPhone(double size) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 15),
+          width: size * 0.91,
+          child: TextFormField(
+            controller: phoneController,
+            keyboardType: TextInputType.phone,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Please enter phone';
+              } else {}
+            },
+            decoration: InputDecoration(
+              labelText: "Phone",
+              labelStyle: MyConstant().h4NmPmrCl(),
+              prefixIcon: Icon(Icons.phone, color: MyConstant.lightColor),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyConstant.primaryColor),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyConstant.lightColor, width: 1),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyConstant.redColor, width: 1),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row buildTitle(String title) {
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ShowTitle(title: title, textStyle: MyConstant().h4BPmrCl()),
+        ),
+      ],
     );
   }
 }

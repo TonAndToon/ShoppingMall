@@ -27,11 +27,23 @@ class _ShopManageSellerState extends State<ShopManageSeller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: MyConstant.primaryColor,
-        child: Text('Edit', style: MyConstant().h4BWCl()),
-        onPressed: () =>
-            Navigator.pushNamed(context, MyConstant.routeEditProfileSeller),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Container(
+            alignment: Alignment.bottomRight,
+            height: 78,
+            width: 78,
+            child: FloatingActionButton(
+              backgroundColor: MyConstant.primaryColor,
+              child: Text('Edit', style: MyConstant().h4BWCl()),
+              onPressed: () => Navigator.pushNamed(
+                context,
+                MyConstant.routeEditProfileSeller,
+              ),
+            ),
+          ),
+        ],
       ),
       body: LayoutBuilder(
         builder: (context, constraints) => Padding(
@@ -110,7 +122,7 @@ class _ShopManageSellerState extends State<ShopManageSeller> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      margin: EdgeInsets.symmetric(vertical: 16),
+                      margin: EdgeInsets.only(top: 15, bottom: 65),
                       width: constraints.maxWidth * 0.9,
                       height: constraints.maxWidth * 0.8,
                       child: GoogleMap(
