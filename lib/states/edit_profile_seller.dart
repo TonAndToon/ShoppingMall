@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingmall/models/user_model.dart';
 import 'package:shoppingmall/utility/my_constant.dart';
@@ -22,15 +23,13 @@ class EditProfileSeller extends StatefulWidget {
 
 class _EditProfileSellerState extends State<EditProfileSeller> {
   UserModel? userModel;
-  String? typeUser;
-  String avatar = '';
-  File? file;
-  double? lat, lng;
+
   final formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   LatLng? latLng;
+  File? file;
 
   @override
   void initState() {
@@ -45,8 +44,8 @@ class _EditProfileSellerState extends State<EditProfileSeller> {
     Position? position = await findPosition();
     if (position != null) {
       setState(() {
-        latLng = position as LatLng?;
-        print('lat  = ${latLng!.latitude}');
+        latLng = LatLng(position.latitude, position.longitude);
+        print('lat  = ${latLng?.latitude}, lng  = ${latLng?.longitude}');
       });
     }
   }
@@ -89,14 +88,21 @@ class _EditProfileSellerState extends State<EditProfileSeller> {
         backgroundColor: MyConstant.primaryColor,
         foregroundColor: MyConstant.whColor,
         title: Text('Edit profile Seller.'),
+        actions: [
+          IconButton(
+            onPressed: () => processEditProfileSeller(),
+            icon: Icon(Icons.edit, color: MyConstant.whColor),
+            tooltip: 'Edit profile seller',
+          ),
+        ],
       ),
       body: LayoutBuilder(
         builder: (context, constraints) => GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
           behavior: HitTestBehavior.opaque,
-          child: SingleChildScrollView(
-            child: Form(
-              key: formKey,
+          child: Form(
+            key: formKey,
+            child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -110,6 +116,7 @@ class _EditProfileSellerState extends State<EditProfileSeller> {
                       buildAvatar(size),
                       buildTitle('Location'),
                       buildMap(size),
+                      buildButtonEditProfile(constraints),
                     ],
                   ),
                 ],
@@ -121,21 +128,73 @@ class _EditProfileSellerState extends State<EditProfileSeller> {
     );
   }
 
+  Future<Null> processEditProfileSeller() async {
+    print('processEditProfileSeller Work');
+    if (formKey.currentState!.validate()) {}
+  }
+
+  Container buildButtonEditProfile(BoxConstraints constraints) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 14),
+      width: constraints.maxWidth * 0.95,
+      child: ElevatedButton(
+        style: MyConstant().myButtonSPmr1(),
+        onPressed: () => processEditProfileSeller(),
+        child: Padding(
+          padding: const EdgeInsets.all(14.0),
+          child: Text('EDIT PROFILE', style: MyConstant().h4NmWCl()),
+        ),
+      ),
+    );
+  }
+
   Row buildMap(double size) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          decoration: BoxDecoration(border: Border.all()),
+          decoration: BoxDecoration(
+            border: Border.all(color: MyConstant.primaryColor),
+          ),
           margin: EdgeInsets.symmetric(vertical: 16),
-          width: size * 0.78,
+          width: size * 0.9,
           height: size * 0.78,
           child: latLng == null
               ? ShowProgress()
-              : Text('lat  = ${latLng!.latitude}'),
+              : GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: latLng!,
+                    zoom: 16,
+                  ),
+                  onMapCreated: (controller) {},
+                  markers: <Marker>[
+                    Marker(
+                      markerId: MarkerId('id'),
+                      position: latLng!,
+                      infoWindow: InfoWindow(
+                        title: 'Your Location',
+                        snippet:
+                            'lat  = ${latLng!.latitude}, lng  = ${latLng?.longitude}',
+                      ),
+                    ),
+                  ].toSet(),
+                ),
         ),
       ],
     );
+  }
+
+  Future<Null> createAvatar({ImageSource? source}) async {
+    try {
+      var result = await ImagePicker().pickImage(
+        source: source!,
+        maxHeight: 800,
+        maxWidth: 800,
+      );
+      setState(() {
+        file = File(result!.path);
+      });
+    } catch (e) {}
   }
 
   Row buildAvatar(double size) {
@@ -146,7 +205,7 @@ class _EditProfileSellerState extends State<EditProfileSeller> {
           child: Row(
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () => createAvatar(source: ImageSource.camera),
                 icon: Icon(
                   Icons.add_a_photo,
                   color: MyConstant.lightColor,
@@ -162,15 +221,13 @@ class _EditProfileSellerState extends State<EditProfileSeller> {
                         padding: const EdgeInsets.all(24.0),
                         child: userModel?.avatar == null
                             ? ShowImage(path: MyConstant.imgAvatar)
-                            : CachedNetworkImage(
-                                imageUrl:
-                                    '${MyConstant.domain}${userModel!.avatar}',
-                                placeholder: (context, url) => ShowProgress(),
-                              ),
+                            : file == null
+                            ? buildShowImageNetwork()
+                            : Image.file(file!),
                       ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () => createAvatar(source: ImageSource.gallery),
                 icon: Icon(
                   Icons.add_photo_alternate,
                   color: MyConstant.primaryColor,
@@ -181,6 +238,13 @@ class _EditProfileSellerState extends State<EditProfileSeller> {
           ),
         ),
       ],
+    );
+  }
+
+  CachedNetworkImage buildShowImageNetwork() {
+    return CachedNetworkImage(
+      imageUrl: '${MyConstant.domain}${userModel!.avatar}',
+      placeholder: (context, url) => ShowProgress(),
     );
   }
 
@@ -195,7 +259,7 @@ class _EditProfileSellerState extends State<EditProfileSeller> {
             controller: nameController,
             validator: (value) {
               if (value!.isEmpty) {
-                return 'Please Fill  name in blank';
+                return 'Please Fill Name';
               } else {
                 return null;
               }
@@ -235,7 +299,7 @@ class _EditProfileSellerState extends State<EditProfileSeller> {
             controller: addressController,
             validator: (value) {
               if (value!.isEmpty) {
-                return 'Please Fill address in blank';
+                return 'Please Fill Address';
               } else {
                 return null;
               }
@@ -279,19 +343,21 @@ class _EditProfileSellerState extends State<EditProfileSeller> {
             keyboardType: TextInputType.phone,
             validator: (value) {
               if (value!.isEmpty) {
-                return 'Please enter phone';
-              } else {}
+                return 'Please Fill Phone';
+              } else {
+                return null;
+              }
             },
             decoration: InputDecoration(
               labelText: "Phone",
               labelStyle: MyConstant().h4NmPmrCl(),
-              prefixIcon: Icon(Icons.phone, color: MyConstant.lightColor),
+              prefixIcon: Icon(Icons.person, color: MyConstant.lightColor),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.primaryColor),
+                borderSide: BorderSide(color: MyConstant.lightColor),
                 borderRadius: BorderRadius.circular(9.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: MyConstant.lightColor, width: 1),
+                borderSide: BorderSide(color: MyConstant.darkColor, width: 1),
                 borderRadius: BorderRadius.circular(9.0),
               ),
               errorBorder: OutlineInputBorder(

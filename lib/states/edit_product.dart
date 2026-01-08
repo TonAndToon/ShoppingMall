@@ -125,8 +125,8 @@ class _EditProductState extends State<EditProduct> {
     try {
       var result = await ImagePicker().pickImage(
         source: source,
-        maxHeight: 240,
-        maxWidth: 240,
+        maxHeight: 800,
+        maxWidth: 800,
       );
       setState(() {
         files[index] = File(result!.path);
