@@ -165,9 +165,10 @@ class _EditProfileSellerState extends State<EditProfileSeller> {
 
   Future<Null> editValueToMySQL(String pathAvatar) async {
     print('#### pathAvatar ==>> $pathAvatar');
-    String apiEditProFile =
+    String apiEditProfile =
         '${MyConstant.domain}/shoppingmall/editProfileSellerWhereId.php?isAdd=true&id=${userModel!.id}&name=${nameController.text}&address=${addressController.text}&phone=${phoneController.text}&avatar=$pathAvatar&lat=${latLng!.latitude}&lng=${latLng!.longitude}';
-    await Dio().get(apiEditProFile).then((value) {
+    await Dio().get(apiEditProfile).then((value) {
+      Navigator.pop(context);
       Navigator.pop(context);
     });
   }
@@ -213,7 +214,7 @@ class _EditProfileSellerState extends State<EditProfileSeller> {
                       infoWindow: InfoWindow(
                         title: 'Your Location',
                         snippet:
-                            'lat  = ${latLng!.latitude}, lng  = ${latLng?.longitude}',
+                            'lat  = ${latLng!.latitude}, lng  = ${latLng!.longitude}',
                       ),
                     ),
                   ].toSet(),

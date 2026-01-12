@@ -34,7 +34,7 @@ class _ShopManageSellerState extends State<ShopManageSeller> {
     await Dio().get(apiGetUserWhereId).then((value) {
       for (var item in json.decode(value.data)) {
         setState(() {
-          userModel = UserModel.fromJson(item);
+          userModel = UserModel.fromMap(item);
         });
       }
     });

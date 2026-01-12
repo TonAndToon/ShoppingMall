@@ -17,6 +17,9 @@ final Map<String, WidgetBuilder> map = {
   '/riderService': (BuildContext context) => RiderService(),
   '/addProduct': (BuildContext context) => AddProduct(),
   '/editProfileSeller': (BuildContext context) => EditProfileSeller(),
+  // '/editProfileSeller': (BuildContext context) => EditProfileSeller(),
+  // '/editProfileSeller': (BuildContext context) => EditProfileSeller(),
+  // '/editProfileSeller': (BuildContext context) => EditProfileSeller(),
 };
 
 String? initlaRoute;
