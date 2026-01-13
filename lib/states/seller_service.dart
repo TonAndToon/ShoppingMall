@@ -99,8 +99,12 @@ class _SellerServiceState extends State<SellerService> {
           ),
         ),
       ),
-      accountName: Text(userModel == null ? 'Name ?' : userModel!.name),
-      accountEmail: Text(userModel == null ? 'Type ?' : userModel!.type),
+      accountName: Text(
+        userModel == null ? 'Name ?' : 'Name:  ${userModel!.name}',
+      ),
+      accountEmail: Text(
+        userModel == null ? 'Type ?' : 'Type:  ${userModel!.type}',
+      ),
       decoration: BoxDecoration(
         gradient: RadialGradient(
           colors: [MyConstant.whColor, MyConstant.primaryColor],

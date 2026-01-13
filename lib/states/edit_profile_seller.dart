@@ -234,6 +234,7 @@ class _EditProfileSellerState extends State<EditProfileSeller> {
       setState(() {
         file = File(result!.path);
       });
+      // ignore: empty_catches
     } catch (e) {}
   }
 

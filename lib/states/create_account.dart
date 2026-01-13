@@ -114,6 +114,7 @@ class _CreateAccountState extends State<CreateAccount> {
               if (value!.isEmpty) {
                 return 'Please enter name';
               } else {}
+              return null;
             },
             decoration: InputDecoration(
               labelText: "name",
@@ -154,6 +155,7 @@ class _CreateAccountState extends State<CreateAccount> {
               if (value!.isEmpty) {
                 return 'Please enter address';
               } else {}
+              return null;
             },
             maxLines: 4,
             decoration: InputDecoration(
@@ -196,6 +198,7 @@ class _CreateAccountState extends State<CreateAccount> {
               if (value!.isEmpty) {
                 return 'Please enter phone';
               } else {}
+              return null;
             },
             decoration: InputDecoration(
               labelText: "phone",
@@ -233,6 +236,7 @@ class _CreateAccountState extends State<CreateAccount> {
               if (value!.isEmpty) {
                 return 'Please enter user';
               } else {}
+              return null;
             },
             decoration: InputDecoration(
               labelText: "user",
@@ -273,6 +277,7 @@ class _CreateAccountState extends State<CreateAccount> {
               if (value!.isEmpty) {
                 return 'Please enter password';
               } else {}
+              return null;
             },
             decoration: InputDecoration(
               labelText: "password",
