@@ -24,6 +24,7 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
   bool load = true;
   bool? haveProduct;
   List<ProductModel> productModels = [];
+  List<List<String>> listImage = [];
 
   @override
   void initState() {
@@ -37,7 +38,7 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
     String urlAPI =
         '${MyConstant.domain}/shoppingmall/getProductWhereIdSeller.php?isAdd=true&idSeller=${userModel!.id}';
     await Dio().get(urlAPI).then((value) {
-      print('#### value = $value');
+      // print('#### value = $value');
 
       if (value.toString() == 'null') {
         setState(() {
@@ -47,6 +48,18 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
       } else {
         for (var item in json.decode(value.data)) {
           ProductModel model = ProductModel.fromMap(item);
+
+          String string = model.images;
+          string = string.substring(1, string.length - 1);
+          List<String> strings = string.split(',');
+          int i = 0;
+          for (var item in strings) {
+            strings[i] = item.trim();
+            i++;
+          }
+
+          listImage.add(strings);
+
           setState(() {
             haveProduct = true;
             load = false;
@@ -60,7 +73,12 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(userModel!.name)),
+      backgroundColor: MyConstant.whColor,
+      appBar: AppBar(
+        title: Text(userModel!.name, style: MyConstant().h5BWCl()),
+        backgroundColor: MyConstant.primaryColor,
+        iconTheme: IconThemeData(color: MyConstant.whColor),
+      ),
       body: load
           ? ShowProgress()
           : haveProduct!
@@ -78,44 +96,53 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
     return LayoutBuilder(
       builder: (context, constraints) => ListView.builder(
         itemCount: productModels.length,
-        itemBuilder: (context, index) => Row(
-          children: [
-            Container(
-              width: constraints.maxWidth * 0.4,
-              height: constraints.maxWidth * 0.6,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CachedNetworkImage(
-                  fit: BoxFit.fill,
-                  imageUrl: findUrlImage(productModels[index].images),
-                  placeholder: (context, url) => ShowProgress(),
-                  errorWidget: (context, url, error) =>
-                      ShowImage(path: MyConstant.img1),
+        itemBuilder: (context, index) => GestureDetector(
+          onTap: () {
+            print('#### You Click Index ==>> $index');
+            showAlertDailog(productModels[index], listImage[index]);
+          },
+          child: Card(
+            color: MyConstant.grey3Color,
+            child: Row(
+              children: [
+                Container(
+                  width: constraints.maxWidth * 0.24,
+                  height: constraints.maxWidth * 0.32,
+                  child: Padding(
+                    padding: const EdgeInsets.all(14.0),
+                    child: CachedNetworkImage(
+                      fit: BoxFit.fill,
+                      imageUrl: findUrlImage(productModels[index].images),
+                      placeholder: (context, url) => ShowProgress(),
+                      errorWidget: (context, url, error) =>
+                          ShowImage(path: MyConstant.img1),
+                    ),
+                  ),
                 ),
-              ),
+                Container(
+                  width: constraints.maxWidth * 0.5,
+                  height: constraints.maxWidth * 0.4,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ShowTitle(
+                        title: productModels[index].name,
+                        textStyle: MyConstant().h5BPmrCl(),
+                      ),
+                      ShowTitle(
+                        title: 'Price: ${productModels[index].price} THB',
+                        textStyle: MyConstant().h4NmRdCl(),
+                      ),
+                      ShowTitle(
+                        title: 'Detail: ${productModels[index].detail}',
+                        textStyle: MyConstant().h3NmBkCl(),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            Container(
-              width: constraints.maxWidth * 0.5,
-              height: constraints.maxWidth * 0.6,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ShowTitle(
-                    title: productModels[index].name,
-                    textStyle: MyConstant().h5BPmrCl(),
-                  ),
-                  ShowTitle(
-                    title: 'Price: ${productModels[index].price} THB',
-                    textStyle: MyConstant().h5BRdCl(),
-                  ),
-                  ShowTitle(
-                    title: 'Detail: ${productModels[index].detail}',
-                    textStyle: MyConstant().h4BBkCl(),
-                  ),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -132,5 +159,30 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
     String result = '${MyConstant.domain}/shoppingmall${strings[0]}';
     print('#### result = $result');
     return result;
+  }
+
+  Future<Null> showAlertDailog(
+    ProductModel productModel,
+    List<String> images,
+  ) async {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: ListTile(
+          leading: ShowImage(path: MyConstant.img2),
+          title: ShowTitle(
+            title: productModel.name,
+            textStyle: MyConstant().h5BPmrCl(),
+          ),
+          subtitle: ShowTitle(
+            title: 'Price: ${productModel.price}',
+            textStyle: MyConstant().h4BRdCl(),
+          ),
+        ),
+        content: CachedNetworkImage(
+          imageUrl: '${MyConstant.domain}/shoppingmall${images[0]}',
+        ),
+      ),
+    );
   }
 }
