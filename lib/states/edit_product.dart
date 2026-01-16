@@ -58,7 +58,7 @@ class _EditProductState extends State<EditProduct> {
 
   @override
   Widget build(BuildContext context) {
-    // double size = MediaQuery.of(context).size.width;
+    double size = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: MyConstant.whColor,
       appBar: AppBar(
@@ -90,10 +90,10 @@ class _EditProductState extends State<EditProduct> {
                       buildProductPrice(constraints),
                       buildProductDetail(constraints),
                       buildTitle('Image product'),
-                      buildImage(constraints, 0),
-                      buildImage(constraints, 1),
-                      buildImage(constraints, 2),
-                      buildImage(constraints, 3),
+                      buildImage(size, 0),
+                      buildImage(size, 1),
+                      buildImage(size, 2),
+                      buildImage(size, 3),
                       buildEditProduct(constraints),
                     ],
                   ),
@@ -132,43 +132,55 @@ class _EditProductState extends State<EditProduct> {
         files[index] = File(result!.path);
         statusImage = true;
       });
+      // ignore: empty_catches
     } catch (e) {}
   }
 
-  Container buildImage(BoxConstraints constraints, int index) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 15.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          IconButton(
-            onPressed: () => chooseImage(index, ImageSource.camera),
-            icon: Icon(
-              Icons.add_a_photo_outlined,
-              color: MyConstant.lightColor,
-              size: 42,
-            ),
+  Row buildImage(double size, int index) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(
+                onPressed: () => chooseImage(index, ImageSource.camera),
+                icon: Icon(
+                  Icons.add_a_photo_outlined,
+                  color: MyConstant.lightColor,
+                  size: 42,
+                ),
+              ),
+              Container(
+                width: size * 0.65,
+                height: size * 0.65,
+                child: files[index] == null
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              '${MyConstant.domain}/shoppingmall/${pathImages[index]}',
+                          placeholder: (context, url) => ShowProgress(),
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: Image.file(files[index]!),
+                      ),
+              ),
+              IconButton(
+                onPressed: () => chooseImage(index, ImageSource.gallery),
+                icon: Icon(
+                  Icons.add_photo_alternate_outlined,
+                  color: MyConstant.primaryColor,
+                  size: 42,
+                ),
+              ),
+            ],
           ),
-          Container(
-            child: files[index] == null
-                ? CachedNetworkImage(
-                    width: constraints.maxWidth * 0.42,
-                    imageUrl:
-                        '${MyConstant.domain}/shoppingmall/${pathImages[index]}',
-                    placeholder: (context, url) => ShowProgress(),
-                  )
-                : Image.file(files[index]!),
-          ),
-          IconButton(
-            onPressed: () => chooseImage(index, ImageSource.gallery),
-            icon: Icon(
-              Icons.add_photo_alternate_outlined,
-              color: MyConstant.primaryColor,
-              size: 42,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

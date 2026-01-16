@@ -24,7 +24,8 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
   bool load = true;
   bool? haveProduct;
   List<ProductModel> productModels = [];
-  List<List<String>> listImage = [];
+  List<List<String>> listImages = [];
+  int indexImage = 0;
 
   @override
   void initState() {
@@ -58,7 +59,7 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
             i++;
           }
 
-          listImage.add(strings);
+          listImages.add(strings);
 
           setState(() {
             haveProduct = true;
@@ -99,15 +100,15 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
         itemBuilder: (context, index) => GestureDetector(
           onTap: () {
             print('#### You Click Index ==>> $index');
-            showAlertDailog(productModels[index], listImage[index]);
+            showAlertDailog(productModels[index], listImages[index]);
           },
           child: Card(
             color: MyConstant.grey3Color,
             child: Row(
               children: [
                 Container(
-                  width: constraints.maxWidth * 0.24,
-                  height: constraints.maxWidth * 0.32,
+                  width: constraints.maxWidth * 0.32,
+                  height: constraints.maxWidth * 0.42,
                   child: Padding(
                     padding: const EdgeInsets.all(14.0),
                     child: CachedNetworkImage(
@@ -134,7 +135,9 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
                         textStyle: MyConstant().h4NmRdCl(),
                       ),
                       ShowTitle(
-                        title: 'Detail: ${productModels[index].detail}',
+                        title: cutWord(
+                          'Detail: ${productModels[index].detail}',
+                        ),
                         textStyle: MyConstant().h3NmBkCl(),
                       ),
                     ],
@@ -157,7 +160,7 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
       index++;
     }
     String result = '${MyConstant.domain}/shoppingmall${strings[0]}';
-    print('#### result = $result');
+    // print('#### result = $result');
     return result;
   }
 
@@ -167,22 +170,109 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
   ) async {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: ListTile(
-          leading: ShowImage(path: MyConstant.img2),
-          title: ShowTitle(
-            title: productModel.name,
-            textStyle: MyConstant().h5BPmrCl(),
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          backgroundColor: MyConstant.whColor,
+          title: ListTile(
+            leading: ShowImage(path: MyConstant.img2),
+            title: ShowTitle(
+              title: productModel.name,
+              textStyle: MyConstant().h5BPmrCl(),
+            ),
+            subtitle: ShowTitle(
+              title: 'Price: ${productModel.price}',
+              textStyle: MyConstant().h4BRdCl(),
+            ),
           ),
-          subtitle: ShowTitle(
-            title: 'Price: ${productModel.price}',
-            textStyle: MyConstant().h4BRdCl(),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CachedNetworkImage(
+                  imageUrl:
+                      '${MyConstant.domain}/shoppingmall${images[indexImage]}',
+                  placeholder: (context, url) => ShowProgress(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            indexImage = 0;
+                            print('#### indexImage = $indexImage');
+                          });
+                        },
+                        icon: Icon(Icons.filter_1_outlined),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            indexImage = 1;
+                            print('#### indexImage = $indexImage');
+                          });
+                        },
+                        icon: Icon(Icons.filter_2_outlined),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            indexImage = 2;
+                            print('#### indexImage = $indexImage');
+                          });
+                        },
+                        icon: Icon(Icons.filter_3_outlined),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            indexImage = 3;
+                            print('#### indexImage = $indexImage');
+                          });
+                        },
+                        icon: Icon(Icons.filter_4_outlined),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  children: [
+                    ShowTitle(
+                      title: 'Details:',
+                      textStyle: MyConstant().h4BBkCl(),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 240,
+                        child: ShowTitle(
+                          title: productModel.detail,
+                          textStyle: MyConstant().h3NmBkCl(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        content: CachedNetworkImage(
-          imageUrl: '${MyConstant.domain}/shoppingmall${images[0]}',
         ),
       ),
     );
+  }
+
+  String cutWord(String string) {
+    String result = string;
+    if (result.length >= 24) {
+      result = result.substring(0, 24);
+      result = '$result ...';
+    }
+    return result;
   }
 }
