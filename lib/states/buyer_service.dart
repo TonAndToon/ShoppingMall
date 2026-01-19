@@ -61,7 +61,13 @@ class _BuyerServiceState extends State<BuyerService> {
       appBar: AppBar(
         backgroundColor: MyConstant.primaryColor,
         title: Text('Buyer', style: MyConstant().h5NmWCl()),
-        iconTheme: IconThemeData(color: MyConstant.whColor),
+        actions: [
+          IconButton(
+            onPressed: () =>
+                Navigator.pushNamed(context, MyConstant.routeShowCart),
+            icon: Icon(Icons.shopping_cart_outlined, color: MyConstant.whColor),
+          ),
+        ],
       ),
       drawer: Drawer(
         child: Stack(
@@ -183,6 +189,6 @@ class _BuyerServiceState extends State<BuyerService> {
     );
   }
 
-  // UserAccountsDrawerHeader buildHeader() =>
-  //     UserAccountsDrawerHeader(accountName: null, accountEmail: null);
+  UserAccountsDrawerHeader buildHeader() =>
+      UserAccountsDrawerHeader(accountName: null, accountEmail: null);
 }

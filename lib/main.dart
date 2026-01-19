@@ -7,6 +7,7 @@ import 'package:shoppingmall/states/create_account.dart';
 import 'package:shoppingmall/states/edit_profile_seller.dart';
 import 'package:shoppingmall/states/rider_service.dart';
 import 'package:shoppingmall/states/seller_service.dart';
+import 'package:shoppingmall/states/show_cart.dart';
 import 'package:shoppingmall/utility/my_constant.dart';
 
 final Map<String, WidgetBuilder> map = {
@@ -17,7 +18,7 @@ final Map<String, WidgetBuilder> map = {
   '/riderService': (BuildContext context) => RiderService(),
   '/addProduct': (BuildContext context) => AddProduct(),
   '/editProfileSeller': (BuildContext context) => EditProfileSeller(),
-  // '/editProfileSeller': (BuildContext context) => EditProfileSeller(),
+  '/showCart': (BuildContext context) => ShowCart(),
   // '/editProfileSeller': (BuildContext context) => EditProfileSeller(),
   // '/editProfileSeller': (BuildContext context) => EditProfileSeller(),
 };

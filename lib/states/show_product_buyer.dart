@@ -26,6 +26,7 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
   List<ProductModel> productModels = [];
   List<List<String>> listImages = [];
   int indexImage = 0;
+  int amountInt = 1;
 
   @override
   void initState() {
@@ -128,7 +129,7 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
                     children: [
                       ShowTitle(
                         title: productModels[index].name,
-                        textStyle: MyConstant().h5BPmrCl(),
+                        textStyle: MyConstant().h4BPmrCl(),
                       ),
                       ShowTitle(
                         title: 'Price: ${productModels[index].price} THB',
@@ -181,7 +182,7 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
             ),
             subtitle: ShowTitle(
               title: 'Price: ${productModel.price}',
-              textStyle: MyConstant().h4BRdCl(),
+              textStyle: MyConstant().h5NmLCl(),
             ),
           ),
           content: SingleChildScrollView(
@@ -205,7 +206,10 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
                             print('#### indexImage = $indexImage');
                           });
                         },
-                        icon: Icon(Icons.filter_1_outlined),
+                        icon: Icon(
+                          Icons.filter_1_outlined,
+                          color: MyConstant.lightColor,
+                        ),
                       ),
                       IconButton(
                         onPressed: () {
@@ -214,7 +218,10 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
                             print('#### indexImage = $indexImage');
                           });
                         },
-                        icon: Icon(Icons.filter_2_outlined),
+                        icon: Icon(
+                          Icons.filter_2_outlined,
+                          color: MyConstant.primaryColor,
+                        ),
                       ),
                       IconButton(
                         onPressed: () {
@@ -223,7 +230,10 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
                             print('#### indexImage = $indexImage');
                           });
                         },
-                        icon: Icon(Icons.filter_3_outlined),
+                        icon: Icon(
+                          Icons.filter_3_outlined,
+                          color: MyConstant.darkColor,
+                        ),
                       ),
                       IconButton(
                         onPressed: () {
@@ -232,7 +242,10 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
                             print('#### indexImage = $indexImage');
                           });
                         },
-                        icon: Icon(Icons.filter_4_outlined),
+                        icon: Icon(
+                          Icons.filter_4_outlined,
+                          color: MyConstant.bkColor,
+                        ),
                       ),
                     ],
                   ),
@@ -259,9 +272,61 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
                     ],
                   ),
                 ),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          if (amountInt != 1) {
+                            setState(() {
+                              amountInt--;
+                            });
+                          }
+                        },
+                        icon: Icon(
+                          Icons.remove_circle_outline,
+                          size: 32,
+                          color: MyConstant.lightColor,
+                        ),
+                      ),
+                      ShowTitle(
+                        title: amountInt.toString(),
+                        textStyle: MyConstant().h6BBkCl(),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            amountInt++;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.add_circle_outline,
+                          size: 32,
+                          color: MyConstant.primaryColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Add cart', style: MyConstant().h5NmPmrCl()),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Cancle', style: MyConstant().h5NmDrkCl()),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -269,8 +334,8 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
 
   String cutWord(String string) {
     String result = string;
-    if (result.length >= 24) {
-      result = result.substring(0, 24);
+    if (result.length >= 68) {
+      result = result.substring(0, 68);
       result = '$result ...';
     }
     return result;
