@@ -6,13 +6,13 @@ class SQLiteHelper {
   final String nameDatabase = 'shoppingmall.db';
   final int version = 1;
   final String tableDatabase = 'tableOrder';
-  final String coloumId = 'id';
-  final String coloumIdSeller = 'idSeller';
-  final String coloumIdProduct = 'idProduct';
-  final String coloumName = 'name';
-  final String coloumPrice = 'price';
-  final String coloumAmount = 'amount';
-  final String coloumSum = 'sum';
+  final String columnId = 'id';
+  final String columnIdSeller = 'idSeller';
+  final String columnIdProduct = 'idProduct';
+  final String columnName = 'name';
+  final String columnPrice = 'price';
+  final String columnAmount = 'amount';
+  final String columnSum = 'sum';
   SQLiteHelper() {
     initislDatabase();
   }
@@ -20,7 +20,7 @@ class SQLiteHelper {
     await openDatabase(
       join(await getDatabasesPath(), nameDatabase),
       onCreate: (db, version) => db.execute(
-        'CREATE TABLE $tableDatabase ($coloumId INTEGER PRIMARY KEY, $coloumIdSeller TEXT, $coloumIdProduct TEXT, $coloumName TEXT, $coloumPrice TEXT, $coloumAmount TEXT, $coloumSum TEXT)',
+        'CREATE TABLE $tableDatabase ($columnId INTEGER PRIMARY KEY, $columnIdSeller TEXT, $columnIdProduct TEXT, $columnName TEXT, $columnPrice TEXT, $columnAmount TEXT, $columnSum TEXT)',
       ),
       version: version,
     );
@@ -40,5 +40,28 @@ class SQLiteHelper {
       results.add(model);
     }
     return results;
+  }
+
+  Future<Null> insertValueToSQLite(SQLiteModel sqLiteModel) async {
+    Database database = await connectedDatabase();
+    await database
+        .insert(tableDatabase, sqLiteModel.toMap())
+        .then(
+          (value) => print('### insert Value name ==>> ${sqLiteModel.name}'),
+        );
+  }
+
+  Future<void> deleteSQLiteWhereId(int id) async {
+    Database database = await connectedDatabase();
+    await database
+        .delete(tableDatabase, where: '$columnId = $id')
+        .then((value) => print('### Success Delete id ==> $id'));
+  }
+
+  Future<void> emptySQLite() async {
+    Database database = await connectedDatabase();
+    await database
+        .delete(tableDatabase)
+        .then((value) => print('### Empty SQLite Success'));
   }
 }

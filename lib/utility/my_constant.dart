@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MyConstant {
   //General
   static String appName = 'Shopping Mall';
-  static String domain = 'https://9eb03a411992.ngrok-free.app';
+  static String domain = 'https://ddc054215b0c.ngrok-free.app';
 
   //Route
   static String routeAuthen = '/authen';
@@ -49,6 +49,27 @@ class MyConstant {
     800: Color.fromRGBO(30, 136, 229, 0.9),
     900: Color.fromRGBO(30, 136, 229, 1.0),
   };
+
+  //Background
+  BoxDecoration planBackground() =>
+      BoxDecoration(color: MyConstant.lightColor.withOpacity(0.75));
+
+  BoxDecoration gradintLinearBackground() => BoxDecoration(
+    gradient: LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [Colors.white, MyConstant.lightColor, MyConstant.lightColor],
+    ),
+  );
+
+  BoxDecoration gradientRadioBackground() => BoxDecoration(
+    gradient: RadialGradient(
+      center: Alignment(0, -0.5),
+      radius: 1.5,
+      colors: [Colors.white, MyConstant.lightColor],
+    ),
+  );
+
   //+++++++++++++++++++++++++++++++++++++++++++//
   //Text Style Normal
   //+++++++++++++++++++++++++++++++++++++++++++//
