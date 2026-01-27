@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
@@ -345,8 +344,9 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
                     String amount = amountInt.toString();
                     int sumInt = int.parse(price) * amountInt;
                     String sum = sumInt.toString();
+
                     print(
-                      '### curentIdSeller = $currentIdSeller, idSeller ==>> $idSeller, idProduct = $idProduct, name = $name, price = $price, amount = $amount, sum = $sum',
+                      '### currentIdSeller =$currentIdSeller, idSeller ==>> $idSeller, idProduct = $idProduct, name = $name, price = $price, amount = $amount, sum = $sum',
                     );
                     if ((currentIdSeller == idSeller) ||
                         (currentIdSeller == null)) {
@@ -369,8 +369,8 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
                       Navigator.pop(context);
                       MyDialog().normalDialog(
                         context,
-                        'ຮ້ານຜີດ ?',
-                        'ກະລຸນາເລືອກສີນຄ້າຮ້ານເດີ່ມຂອງທ່ານໃຫ້ແລ້ວກ່ອນທີ່ຈະເລືອກຮ້ານອື່ນ...!',
+                        'ຜີດຮ້ານ ?',
+                        'ກະລຸນາເລືອກສີນຄ້າຮ້ານກ່ອນໜ້ານີ້ໃຫ້ສຳເລັດກ່ອນຈື່ງສາມາດເລືອກສີນຄ້າ ຮ້ານ ${productModel.nameSeller} ໄດ້ເດີເຈົ້າ...!',
                       );
                     }
                   },
