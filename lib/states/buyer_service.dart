@@ -60,6 +60,7 @@ class _BuyerServiceState extends State<BuyerService> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: MyConstant.primaryColor,
+        iconTheme: IconThemeData(color: MyConstant.whColor),
         title: Text('Buyer', style: MyConstant().h5NmWCl()),
         actions: [
           IconButton(
