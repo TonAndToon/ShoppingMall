@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingmall/states/add_product.dart';
+import 'package:shoppingmall/states/add_wallet.dart';
 import 'package:shoppingmall/states/authen.dart';
 import 'package:shoppingmall/states/buyer_service.dart';
 import 'package:shoppingmall/states/create_account.dart';
@@ -9,6 +10,7 @@ import 'package:shoppingmall/states/rider_service.dart';
 import 'package:shoppingmall/states/seller_service.dart';
 import 'package:shoppingmall/states/show_cart.dart';
 import 'package:shoppingmall/utility/my_constant.dart';
+import 'package:shoppingmall/widgets/nav_confirm_add_wallet.dart';
 
 final Map<String, WidgetBuilder> map = {
   '/authen': (BuildContext context) => Authen(),
@@ -19,8 +21,8 @@ final Map<String, WidgetBuilder> map = {
   '/addProduct': (BuildContext context) => AddProduct(),
   '/editProfileSeller': (BuildContext context) => EditProfileSeller(),
   '/showCart': (BuildContext context) => ShowCart(),
-  // '/editProfileSeller': (BuildContext context) => EditProfileSeller(),
-  // '/editProfileSeller': (BuildContext context) => EditProfileSeller(),
+  '/addWallet': (BuildContext context) => AddWallet(),
+  '/navConfirmAddWallet': (BuildContext context) => NavConfirmAddWallet(),
 };
 
 String? initlaRoute;

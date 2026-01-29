@@ -130,11 +130,11 @@ class _ShowCartState extends State<ShowCart> {
         title: ListTile(
           leading: ShowImage(path: MyConstant.img4),
           title: ShowTitle(
-            title: 'ທ່ານຕ້ອງການ DELETE',
+            title: 'ທ່ານຕ້ອງການລົບ',
             textStyle: MyConstant().h4BBkCl(),
           ),
           subtitle: ShowTitle(
-            title: 'Product ທັງໝົດ ໃນກະຕ່າແທ້ບໍ່ ?',
+            title: 'Product ທັງໝົດໃນກະຕ່າແທ້ບໍ່ ?',
             textStyle: MyConstant().h4BBkCl(),
           ),
         ),
@@ -163,7 +163,9 @@ class _ShowCartState extends State<ShowCart> {
       children: [
         ElevatedButton(
           style: MyConstant().myButtonSPmr1(),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, MyConstant.routeAddWallet);
+          },
           child: Padding(
             padding: const EdgeInsets.all(14.0),
             child: Text('ORDER', style: MyConstant().h4NmWCl()),
