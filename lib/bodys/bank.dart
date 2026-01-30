@@ -22,11 +22,11 @@ class _BankState extends State<Bank> {
 
   Widget buildBKKbank() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-      height: 150,
+      margin: EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+      height: 124,
       child: Center(
         child: Card(
-          color: Colors.indigo.shade100,
+          color: MyConstant.grey3Color,
           child: ListTile(
             leading: Container(
               width: 80,
@@ -45,8 +45,7 @@ class _BankState extends State<Bank> {
               textStyle: MyConstant().h4BBkCl(),
             ),
             subtitle: ShowTitle(
-              title:
-                  'ชื่อบัญชี นายชัยวุฒิ พรหมบุตร เลขบัญชี  913 - 0 - 04149 - 5',
+              title: 'ชื่อบัญชี นายธหวัดชัย บุนธบันดีด เลขบัญชี 913-0-04149-5',
               textStyle: MyConstant().h4NmBkCl(),
             ),
           ),
@@ -57,11 +56,11 @@ class _BankState extends State<Bank> {
 
   Container buildKbank() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-      height: 150,
+      margin: EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+      height: 124,
       child: Center(
         child: Card(
-          color: Colors.green[100],
+          color: MyConstant.grey3Color,
           child: ListTile(
             leading: Container(
               width: 80,
@@ -80,8 +79,7 @@ class _BankState extends State<Bank> {
               textStyle: MyConstant().h4BBkCl(),
             ),
             subtitle: ShowTitle(
-              title:
-                  'ชื่อบัญชี นายชัยวุฒิ พรหมบุตร เลขบัญชี  056 - 2 - 32767 - 5',
+              title: 'ชื่อบัญชี นายธหวัดชัย บุนธบันดีด เลขบัญชี 056-2-32767-5',
               textStyle: MyConstant().h4NmBkCl(),
             ),
           ),

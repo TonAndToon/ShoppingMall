@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shoppingmall/utility/my_constant.dart';
 
 class ShowTitle extends StatelessWidget {
   final String title;
@@ -7,6 +8,6 @@ class ShowTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(title, style: textStyle);
+    return Text(title, style: textStyle == null ? MyConstant().h5BBkCl() : textStyle);
   }
 }
