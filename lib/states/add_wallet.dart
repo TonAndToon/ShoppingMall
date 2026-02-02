@@ -46,7 +46,13 @@ class _AddWalletState extends State<AddWallet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Add wallet')),
+      backgroundColor: MyConstant.whColor,
+      appBar: AppBar(
+        title: Text('Add wallet'),
+        backgroundColor: MyConstant.primaryColor,
+        iconTheme: IconThemeData(color: MyConstant.whColor),
+        foregroundColor: MyConstant.whColor,
+      ),
       body: widgets[indexPosition],
       bottomNavigationBar: BottomNavigationBar(
         selectedIconTheme: IconThemeData(color: MyConstant.darkColor),

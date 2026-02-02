@@ -93,7 +93,7 @@ class _BankState extends State<Bank> {
       padding: const EdgeInsets.all(8.0),
       child: ShowTitle(
         title: 'การโอนเงินเข้า บัญชีธนาคาร',
-        textStyle: MyConstant().h5BBkCl(),
+        textStyle: MyConstant().h5NmBkCl(),
       ),
     );
   }

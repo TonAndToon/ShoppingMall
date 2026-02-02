@@ -73,17 +73,17 @@ class _PrompayState extends State<Prompay> {
 
   Widget buildCopyPrompay() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: EdgeInsets.symmetric(horizontal: 2, vertical: 8),
       child: Card(
-        color: Colors.cyan.shade50,
+        color: MyConstant.primaryColor,
         child: ListTile(
           title: ShowTitle(
             title: '0818595309',
-            textStyle: MyConstant().h6NmBkCl(),
+            textStyle: MyConstant().h6NmWCl(),
           ),
           subtitle: ShowTitle(
             title: 'บัญชี Prompay',
-            textStyle: MyConstant().h4NmBkCl(),
+            textStyle: MyConstant().h4NmWCl(),
           ),
           trailing: IconButton(
             onPressed: () {
@@ -94,7 +94,7 @@ class _PrompayState extends State<Prompay> {
                 'Copy Prompay to Clopboard สำเร็จ แล้ว กรุณาไปที่ แอพธนาคารของ ท่าน เพื่อโอนเงิน ผ่าน Prompay ได้เลย คะ',
               );
             },
-            icon: Icon(Icons.copy, color: MyConstant.darkColor),
+            icon: Icon(Icons.copy, color: MyConstant.whColor),
           ),
         ),
       ),
