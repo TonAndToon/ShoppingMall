@@ -8,6 +8,9 @@ class ShowTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(title, style: textStyle == null ? MyConstant().h5BBkCl() : textStyle);
+    return Text(
+      title,
+      style: textStyle == null ? MyConstant().h5BBkCl() : textStyle,
+    );
   }
 }

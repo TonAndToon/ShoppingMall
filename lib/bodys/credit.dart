@@ -1,11 +1,14 @@
-import 'dart:convert';
+// import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
+
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:omise_flutter/omise_flutter.dart';
+// import 'package:omise_flutter/omise_flutter.dart';
+
 import 'package:shoppingmall/utility/my_constant.dart';
-import 'package:shoppingmall/utility/my_dialog.dart';
+// import 'package:shoppingmall/utility/my_dialog.dart';
+
 import 'package:shoppingmall/widgets/show_title.dart';
 
 class Credit extends StatefulWidget {
@@ -54,8 +57,9 @@ class _CreditState extends State<Credit> {
                     formIDcard(),
                     buildExpiryCvc(),
                     buildTitle('Amount :'),
+
                     formAmount(),
-                    // Spacer(),
+                    SizedBox(height: 53),
                   ],
                 ),
               ),
@@ -70,6 +74,28 @@ class _CreditState extends State<Credit> {
     );
   }
 
+  Container buttonAddMoney() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () {
+          if (formKey.currentState!.validate()) {
+            getTokenAndChargeOmise();
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: MyConstant.primaryColor, // ສີພື້ນຂອງປຸ່ມ
+          foregroundColor: MyConstant.whColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8), // ປັບປຸ່ມໃຫ້ມີຄວາມມົນ
+          ), // ສີຂອງຕົວໜັງສື ຫຼື Icon
+        ),
+        child: Text('Add money', style: MyConstant().h5NmWCl()),
+      ),
+    );
+  }
+
   Future<void> getTokenAndChargeOmise() async {
     String publicKey = MyConstant.publicKey;
 
@@ -77,59 +103,53 @@ class _CreditState extends State<Credit> {
       'name = $name, surname = $surname, publicKey = $publicKey, idCard ==>> $idCard, expiryDataStr = $expriyDateStr, expiryDateMouth ==>> $expiryDateMouth, expiryDatyYear ==>> $expiryDateYear, cvc --> $cvc',
     );
 
-    OmiseFlutter omiseFlutter = OmiseFlutter(publicKey);
-    await omiseFlutter.token
-        .create(
-          '$name $surname',
-          idCard!,
-          expiryDateMouth!,
-          expiryDateYear!,
-          cvc!,
-        )
-        .then((value) async {
-          String token = value.id.toString();
-          print('token ==>> $token');
+    // OmisePayment omiseFlutter = OmisePayment(publicKey: publicKey);  ສະໝັກ Omise ບໍ່ຜ່ານຈື່ງບໍ່ສາມາດນຳໃຊ້
 
-          String secreKey = MyConstant.secreKey;
-          String urlAPI = 'https://api.omise.co/charges';
-          String basicAuth =
-              'Basic ' + base64Encode(utf8.encode(secreKey + ":"));
+    //     await omiseFlutter.token
+    //     .create(
+    //         '$name $surname', idCard!, expiryDateMouth!, expiryDateYear!, cvc!)
+    //     .then((value) async {
+    //   String token = value.id.toString();
+    //   print('token ==>> $token');
 
-          Map<String, String> headerMap = {};
-          headerMap['authorization'] = basicAuth;
-          headerMap['Cache-Control'] = 'no-cache';
-          headerMap['Content-Type'] = 'application/x-www-form-urlencoded';
+    //   String secreKey = MyConstant.secreKey;
+    //   String urlAPI = 'https://api.omise.co/charges';
+    //   String basicAuth = 'Basic ' + base64Encode(utf8.encode(secreKey + ":"));
 
-          String zero = '00';
-          amount = '$amount$zero';
-          print('amount00 ==>> $amount');
+    //   Map<String, String> headerMap = {};
+    //   headerMap['authorization'] = basicAuth;
+    //   headerMap['Cache-Control'] = 'no-cache';
+    //   headerMap['Content-Type'] = 'application/x-www-form-urlencoded';
 
-          Map<String, dynamic> data = {};
-          data['amount'] = amount;
-          data['currency'] = 'thb';
-          data['card'] = token;
+    //   String zero = '00';
+    //   amount = '$amount$zero';
+    //   print('amount00 ==>> $amount');
 
-          Uri uri = Uri.parse(urlAPI);
+    //   Map<String, dynamic> data = {};
+    //   data['amount'] = amount;
+    //   data['currency'] = 'thb';
+    //   data['card'] = token;
 
-          http.Response response = await http.post(
-            uri,
-            headers: headerMap,
-            body: data,
-          );
+    //   Uri uri = Uri.parse(urlAPI);
 
-          var resultCharge = json.decode(response.body);
-          // print('resultCharge = $resultCharge');
-          print('status ของการตัดบัตร --->>> ${resultCharge['status']}');
-        })
-        .catchError((value) {
-          String title = value.code;
-          String message = value.message;
-          MyDialog().normalDialog(context, title, message);
-        });
+    //   http.Response response = await http.post(
+    //     uri,
+    //     headers: headerMap,
+    //     body: data,
+    //   );
+
+    //   var resultCharge = json.decode(response.body);
+    //   // print('resultCharge = $resultCharge');
+    //   print('status ของการตัดบัตร --->>> ${resultCharge['status']}');
+    // }).catchError((value) {
+    //   String title = value.code;
+    //   String message = value.message;
+    //   MyDialog().normalDialog(context, title, message);
+    // });
   }
 
   Widget formAmount() => Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 30),
+    padding: const EdgeInsets.symmetric(horizontal: 8),
     child: TextFormField(
       validator: (value) {
         if (value!.isEmpty) {
@@ -143,7 +163,7 @@ class _CreditState extends State<Credit> {
       decoration: InputDecoration(
         suffix: ShowTitle(title: 'THB.', textStyle: MyConstant().h4NmBkCl()),
         label: ShowTitle(title: 'Amount :', textStyle: MyConstant().h4NmBkCl()),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
   );
@@ -153,7 +173,7 @@ class _CreditState extends State<Credit> {
       margin: EdgeInsets.symmetric(vertical: 16),
       child: Row(
         children: [
-          buildSizebox(30),
+          buildSizebox(8),
           Expanded(
             child: Column(
               children: [buildTitle('Expiry Date :'), formExpriyDate()],
@@ -161,7 +181,7 @@ class _CreditState extends State<Credit> {
           ),
           buildSizebox(8),
           Expanded(child: Column(children: [buildTitle('CVC :'), formCVC()])),
-          buildSizebox(30),
+          buildSizebox(8),
         ],
       ),
     );
@@ -196,7 +216,7 @@ class _CreditState extends State<Credit> {
     keyboardType: TextInputType.number,
     decoration: InputDecoration(
       hintText: 'xx/xxxx',
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
     ),
   );
 
@@ -209,7 +229,7 @@ class _CreditState extends State<Credit> {
           return 'cvc ต้องมี 3 ตัว';
         } else {}
       }
-      // return null;
+      return null;
     },
     onChanged: (value) {
       cvc = cvcMask.getUnmaskedText();
@@ -218,7 +238,7 @@ class _CreditState extends State<Credit> {
     keyboardType: TextInputType.number,
     decoration: InputDecoration(
       hintText: 'xxx',
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
     ),
   );
 
@@ -227,11 +247,11 @@ class _CreditState extends State<Credit> {
       margin: EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
-          buildSizebox(30),
+          buildSizebox(8),
           formName(),
           buildSizebox(8),
           formSurName(),
-          buildSizebox(30),
+          buildSizebox(8),
         ],
       ),
     );
@@ -240,7 +260,7 @@ class _CreditState extends State<Credit> {
   SizedBox buildSizebox(double width) => SizedBox(width: width);
 
   Widget formIDcard() => Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 30),
+    padding: const EdgeInsets.symmetric(horizontal: 8),
     child: TextFormField(
       validator: (value) {
         if (value!.isEmpty) {
@@ -255,13 +275,13 @@ class _CreditState extends State<Credit> {
       },
       inputFormatters: [idCardMask],
       onChanged: (value) {
-        // idCard = value.trim();
+        idCard = value.trim();
         idCard = idCardMask.getUnmaskedText();
       },
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         hintText: 'xxxx-xxxx-xxxx-xxxx',
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
   );
@@ -278,7 +298,7 @@ class _CreditState extends State<Credit> {
       },
       decoration: InputDecoration(
         label: ShowTitle(title: 'Name :', textStyle: MyConstant().h4NmBkCl()),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
   );
@@ -298,13 +318,13 @@ class _CreditState extends State<Credit> {
           title: 'Surname :',
           textStyle: MyConstant().h4NmBkCl(),
         ),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
   );
 
   Widget buildTitle(String title) => Padding(
     padding: const EdgeInsets.all(8.0),
-    child: ShowTitle(title: title, textStyle: MyConstant().h8NmBkCl()),
+    child: ShowTitle(title: title, textStyle: MyConstant().h4BBkCl()),
   );
 }
