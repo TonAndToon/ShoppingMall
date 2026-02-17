@@ -127,8 +127,8 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
             child: Row(
               children: [
                 Container(
-                  width: constraints.maxWidth * 0.32,
-                  height: constraints.maxWidth * 0.42,
+                  width: constraints.maxWidth * 0.46,
+                  height: constraints.maxWidth * 0.32,
                   child: Padding(
                     padding: const EdgeInsets.all(14.0),
                     child: CachedNetworkImage(

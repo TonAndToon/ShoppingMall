@@ -80,7 +80,7 @@ class _ShowAllShopBuyerState extends State<ShowAllShopBuyer> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Container(
-                          width: 95,
+                          width: 123,
                           height: 123,
                           child: CachedNetworkImage(
                             errorWidget: (context, url, error) =>
