@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MyConstant {
   //General
   static String appName = 'Shopping Mall';
-  static String domain = 'https://2e5d-115-84-76-170.ngrok-free.app';
+  static String domain = 'https://a375-115-84-76-170.ngrok-free.app';
 
   ///
   static String urlPrompay = 'https://promptpay.io/0818595309.png';

@@ -127,12 +127,12 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
             child: Row(
               children: [
                 Container(
-                  width: constraints.maxWidth * 0.46,
+                  width: constraints.maxWidth * 0.42,
                   height: constraints.maxWidth * 0.32,
                   child: Padding(
-                    padding: const EdgeInsets.all(14.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: CachedNetworkImage(
-                      fit: BoxFit.fill,
+                      fit: BoxFit.fitHeight,
                       imageUrl: findUrlImage(productModels[index].images),
                       placeholder: (context, url) => ShowProgress(),
                       errorWidget: (context, url, error) =>
@@ -141,24 +141,24 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
                   ),
                 ),
                 Container(
-                  width: constraints.maxWidth * 0.5,
-                  height: constraints.maxWidth * 0.4,
+                  width: constraints.maxWidth * 0.46,
+                  height: constraints.maxWidth * 0.39,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ShowTitle(
                         title: productModels[index].name,
-                        textStyle: MyConstant().h4BPmrCl(),
+                        textStyle: MyConstant().h4BBkCl(),
                       ),
                       ShowTitle(
                         title: 'Price: ${productModels[index].price} THB',
-                        textStyle: MyConstant().h4NmRdCl(),
+                        textStyle: MyConstant().h4BGrey2Cl(),
                       ),
                       ShowTitle(
                         title: cutWord(
                           'Detail: ${productModels[index].detail}',
                         ),
-                        textStyle: MyConstant().h3NmBkCl(),
+                        textStyle: MyConstant().h3NmGrey2Cl(),
                       ),
                     ],
                   ),
@@ -390,8 +390,8 @@ class _ShowProductBuyerState extends State<ShowProductBuyer> {
 
   String cutWord(String string) {
     String result = string;
-    if (result.length >= 68) {
-      result = result.substring(0, 68);
+    if (result.length >= 42) {
+      result = result.substring(0, 42);
       result = '$result ...';
     }
     return result;
